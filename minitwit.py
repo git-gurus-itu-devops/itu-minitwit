@@ -38,9 +38,9 @@ def connect_db():
 def init_db():
     """Creates the database tables."""
     with closing(connect_db()) as db:
-        with app.open_resource('schema.sql') as f:
+        with app.open_resource('schema.sql', mode="r") as f:
 
-            db.cursor().executescript(f.read().decode('utf-8'))
+            db.cursor().executescript(f.read())
         db.commit()
 
 

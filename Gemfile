@@ -7,3 +7,11 @@ gem "sinatra"
 gem "puma"
 
 gem "rackup", "~> 2.1"
+
+gem "activerecord", "~> 7.1"
+
+gem "sinatra-activerecord", "~> 2.0"
+
+gem "sqlite3", "~> 1.7"
+
+gem "rake", "~> 13.1"

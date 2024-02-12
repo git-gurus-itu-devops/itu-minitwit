@@ -134,7 +134,7 @@ get '/:username/follow' do
 
   whom = User.find_by_username(params[:username])
   current_user.following << whom
-  flash[:success] = "You are now following \"#{params[:username]}\""
+  flash[:success] = "You are now following &#34;#{params[:username]}&#34;"
   redirect("/#{params[:username]}")
 end
 
@@ -143,6 +143,6 @@ get '/:username/unfollow' do
 
   whom = User.find_by_username(params[:username])
   current_user.following.delete(whom)
-  flash[:success] = "You are no longer following \"#{params[:username]}\""
+  flash[:success] = "You are no longer following &#34;#{params[:username]}&#34;"
   redirect("/#{params[:username]}")
 end

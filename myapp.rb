@@ -3,7 +3,7 @@ require 'sinatra'
 require './models/message'
 require './models/user'
 
-configure :production do
+configure :production, :development do
   set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
   enable :sessions
 end
@@ -11,6 +11,8 @@ end
 configure :test do
   set :database, { adapter: 'sqlite3', database: '/tmp/minitwit_test.db' }
   enable :sessions
+  enable :logging
+  ActiveRecord::Base.logger = Logger.new($stdout)
 end
 
 helpers do

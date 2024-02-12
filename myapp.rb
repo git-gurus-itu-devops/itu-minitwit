@@ -42,3 +42,21 @@ post '/register' do
   end
   return error
 end
+
+post '/login' do
+  user = User.find_by_username(params[:username])
+  if user.nil?
+    error = 'Invalid username'
+  elsif !user.authenticate(params[:password])
+    error = "Invalid password"
+  else
+    session[:user_id] = user.id
+    return "You were logged in"
+  end
+  return error
+end
+
+get '/logout' do
+  session[:user_id] = nil
+  return 'You were logged out'
+end

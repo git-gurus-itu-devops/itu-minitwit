@@ -1,0 +1,20 @@
+ruby_version: 3.3
+ignore:
+    - "db/schema.rb"
+    - "db/migrate/*"
+    - "tmp/**/*"
+    - "config/**/*"
+    - "**/*": # Rules that should always be ignored
+          - Layout/EndAlignment
+          - Style/EmptyMethod
+          - Style/SingleLineMethods
+          - Style/StringLiterals # Seriously why? Single quotes when no interpolation, double quotes when there is.
+          - Layout/SpaceInsideHashLiteralBraces # Why? This is ugly
+          - Layout/ExtraSpacing # We like to align things
+          - Layout/MultilineOperationIndentation # We like to align things
+          - Layout/ArgumentAlignment # We like to align things
+          - Layout/HashAlignment # We like to align things
+          - Layout/MultilineMethodCallIndentation # We like to align things
+          - Style/TernaryParentheses # I would agree but Standards definition of 'complex' is too strict
+          - Style/StringLiteralsInInterpolation # This looks weird
+          - Style/RescueStandardError # We like being explicit

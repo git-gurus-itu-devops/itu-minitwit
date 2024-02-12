@@ -4,6 +4,7 @@ require './models/message'
 require './models/user'
 
 set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
+enable :sessions
 
 helpers do
   def nil_or_empty?(string)
@@ -59,4 +60,22 @@ end
 get '/logout' do
   session[:user_id] = nil
   return 'You were logged out'
+end
+
+post '/add_message' do
+  if !session[:user_id]
+    return status 401
+  elsif params[:text]
+    if Message.create(
+      author_id: session[:user_id],
+      text: params[:text],
+      pub_date: Time.now,
+      flagged: 0
+    ) then return 'Your message was recorded'
+    else
+      error = 'Something went wrong :('
+    end
+
+    return error
+  end
 end

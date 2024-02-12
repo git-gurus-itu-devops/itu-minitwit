@@ -23,3 +23,5 @@ group :development do
   gem "solargraph"
 end
 
+
+gem "sinatra-flash", "~> 0.3.0"

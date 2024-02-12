@@ -2,11 +2,15 @@
 
 require 'sinatra/activerecord'
 require 'sinatra'
+require 'sinatra/flash'
 require './models/message'
 require './models/user'
 
+PR_PAGE = 30
+
 configure :production, :development do
   set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
+  set :public_folder, "#{__dir__}/static"
   enable :sessions
 end
 
@@ -27,19 +31,26 @@ helpers do
   end
 
   def current_user
-    return nil if !logged_in?
+    return nil unless logged_in?
+
     User.find(session[:user_id])
   end
 end
 
 get '/' do
-  Message.all.map do |message|
-    Rack::Utils.escape_html(message.text)
-  end
+  redirect('/public') unless logged_in?
+  user = current_user
+  @messages = Message.where(author_id: user.following << user).last(PR_PAGE).reverse
+  erb :timeline, layout: :layout
+end
+
+get '/public' do
+  @messages = Message.last(PR_PAGE).reverse
+  erb :timeline, layout: :layout
 end
 
 get '/register' do
-  erb :index
+  erb :register, layout: :layout
 end
 
 post '/register' do
@@ -59,11 +70,17 @@ post '/register' do
     password: params[:password],
     password_confirmation: params[:password2]
   )
-    return 'You were successfully registered and can login now'
+    flash[:success] = 'You were successfully registered and can login now'
+    redirect('/login')
   else
-    error = 'Something went wrong :('
+    error = 'Something went wrong'
   end
-  return error
+  flash[:error] = error
+  redirect('/register')
+end
+
+get '/login' do
+  erb :login, layout: :layout
 end
 
 post '/login' do
@@ -74,9 +91,11 @@ post '/login' do
     error = 'Invalid password'
   else
     session[:user_id] = user.id
-    return 'You were logged in'
+    flash[:success] = 'You were logged in'
+    redirect('/')
   end
-  return error
+  flash[:error] = error
+  redirect('/login')
 end
 
 get '/logout' do
@@ -94,11 +113,36 @@ post '/add_message' do
       text: params[:text],
       pub_date: Time.now,
       flagged: 0
-    ) then return 'Your message was recorded'
-    else
-      error = 'Something went wrong :('
+    )
+      flash[:success] = 'Your message was recorded'
     end
-
-    return error
+  else
+    flash[:error] = 'Something went wrong :('
   end
+
+  redirect('/')
+end
+
+get '/:username' do
+  @profile_user = User.find_by_username(params[:username])
+  @messages = Message.where(author_id: @profile_user).last(PR_PAGE).reverse
+  erb :timeline, layout: :layout
+end
+
+get '/:username/follow' do
+  return status 401 unless logged_in?
+
+  whom = User.find_by_username(params[:username])
+  current_user.following << whom
+  flash[:success] = "You are now following #{params[:username]}"
+  redirect("/#{params[:username]}")
+end
+
+get '/:username/unfollow' do
+  return status 401 unless logged_in?
+
+  whom = User.find_by_username(params[:username])
+  current_user.following.delete(whom)
+  flash[:success] = "You are no longer following #{params[:username]}"
+  redirect("/#{params[:username]}")
 end

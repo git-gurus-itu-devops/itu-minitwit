@@ -17,6 +17,8 @@ elif [ "$1" = "inspectdb" ]; then
     ./flag_tool -i | less
 elif [ "$1" = "flag" ]; then
     ./flag_tool "$@"
+elif [ "$1" = "console" ]; then
+    bundle exec irb -I . -r myapp.rb
 else
   echo "I do not know this command..."
 fi

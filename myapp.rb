@@ -51,10 +51,10 @@ post '/login' do
   if user.nil?
     error = 'Invalid username'
   elsif !user.authenticate(params[:password])
-    error = "Invalid password"
+    error = 'Invalid password'
   else
     session[:user_id] = user.id
-    return "You were logged in"
+    return 'You were logged in'
   end
   return error
 end

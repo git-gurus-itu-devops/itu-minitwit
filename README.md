@@ -27,7 +27,7 @@ docker build . -t minitwit
 Run
 
 ```
-docker run --rm -v /tmp:/tmp -it -p 5000:5000 minitwit <cmd>
+docker run --rm -v /tmp:/tmp -it -p 5000:5000 minitwit [cmd]
 ```
 
 The volume mount should point to the local database.

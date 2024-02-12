@@ -3,8 +3,15 @@ require 'sinatra'
 require './models/message'
 require './models/user'
 
-set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
-enable :sessions
+configure :production do
+  set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
+  enable :sessions
+end
+
+configure :test do
+  set :database, { adapter: 'sqlite3', database: '/tmp/minitwit_test.db' }
+  enable :sessions
+end
 
 helpers do
   def nil_or_empty?(string)

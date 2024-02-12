@@ -15,7 +15,7 @@ import requests
 # import schema
 # import data
 # otherwise use the database that you got previously
-BASE_URL = "http://localhost:4567"
+BASE_URL = "http://0.0.0.0:4567"
 
 def register(username, password, password2=None, email=None):
     """Helper function to register a user"""

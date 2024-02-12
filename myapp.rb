@@ -1,8 +1,8 @@
 require 'sinatra/activerecord'
 require 'sinatra'
 
-set :database, {adapter:'sqlite3', database: '/tmp/minitwit.db'}
+set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
 
 get '/' do
-    Message.last.text
+  Message.last.text
 end

@@ -22,7 +22,7 @@ end
 post '/register' do
   if nil_or_empty?(params[:username])
     error = 'You have to enter a username'
-  elsif nil_or_empty?(params[:email]) || !(params[:email] =~ /@/)
+  elsif nil_or_empty?(params[:email]) || params[:email] !~ /@/
     error = 'You have to enter a valid email address'
   elsif nil_or_empty?(params[:password])
     error = 'You have to enter a password'

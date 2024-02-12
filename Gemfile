@@ -15,3 +15,8 @@ gem "sinatra-activerecord", "~> 2.0"
 gem "sqlite3", "~> 1.7"
 
 gem "rake", "~> 13.1"
+
+group :development do
+  gem "standard", "~> 1.33"
+  gem "solargraph"
+end

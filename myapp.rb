@@ -13,7 +13,9 @@ helpers do
 end
 
 get '/' do
-  Message.last.text
+  Message.all.map do |message|
+    Rack::Utils.escape_html(message.text)
+  end
 end
 
 get '/register' do

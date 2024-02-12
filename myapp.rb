@@ -21,6 +21,15 @@ helpers do
   def nil_or_empty?(string)
     string.nil? || string.empty?
   end
+
+  def logged_in?
+    !!session[:user_id]
+  end
+
+  def current_user
+    return nil if !logged_in?
+    User.find(session[:user_id])
+  end
 end
 
 get '/' do
@@ -72,7 +81,8 @@ end
 
 get '/logout' do
   session[:user_id] = nil
-  return 'You were logged out'
+
+  'You were logged out'
 end
 
 post '/add_message' do

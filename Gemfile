@@ -16,7 +16,10 @@ gem "sqlite3", "~> 1.7"
 
 gem "rake", "~> 13.1"
 
+gem "bcrypt", "~> 3.1"
+
 group :development do
   gem "standard", "~> 1.33"
   gem "solargraph"
 end
+

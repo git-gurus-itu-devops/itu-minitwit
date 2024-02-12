@@ -13,4 +13,4 @@ test:
 	sleep 2
 	- pytest refactored_minitwit_tests.py
 	pkill -f minitwit
-	rm /tmp/minitwit_test.db
+	rm /tmp/minitwit_test.*

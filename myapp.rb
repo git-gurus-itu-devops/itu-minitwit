@@ -8,9 +8,16 @@ require './models/user'
 
 PR_PAGE = 30
 
-configure :production, :development do
+configure :production do
   set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
   set :public_folder, "#{__dir__}/static"
+  enable :sessions
+end
+
+configure :development do
+  set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
+  set :public_folder, "#{__dir__}/static"
+  ActiveRecord.verbose_query_logs = true
   enable :sessions
 end
 
@@ -33,19 +40,28 @@ helpers do
   def current_user
     return nil unless logged_in?
 
-    User.find(session[:user_id])
+    @current_user ||= User.find(session[:user_id])
   end
 end
 
 get '/' do
   redirect('/public') unless logged_in?
-  user = current_user
-  @messages = Message.where(author_id: user.following << user).last(PR_PAGE).reverse
+
+  @messages = Message
+    .authored_by(current_user.following + [current_user])
+    .includes(:author)
+    .order(pub_date: :desc)
+    .last(PR_PAGE)
+
   erb :timeline, layout: :layout
 end
 
 get '/public' do
-  @messages = Message.last(PR_PAGE).reverse
+  @messages = Message
+    .includes(:author)
+    .order(pub_date: :desc)
+    .last(PR_PAGE)
+
   erb :timeline, layout: :layout
 end
 
@@ -125,7 +141,12 @@ end
 
 get '/:username' do
   @profile_user = User.find_by_username(params[:username])
-  @messages = Message.where(author_id: @profile_user).last(PR_PAGE).reverse
+  @messages = Message
+    .authored_by(@profile_user)
+    .includes(:author)
+    .order(pub_date: :desc)
+    .last(PR_PAGE)
+
   erb :timeline, layout: :layout
 end
 

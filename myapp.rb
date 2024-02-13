@@ -49,6 +49,7 @@ get '/' do
 
   @messages = Message
     .authored_by(current_user.following + [current_user])
+    .includes(:author)
     .order(pub_date: :desc)
     .last(PR_PAGE)
 
@@ -57,6 +58,7 @@ end
 
 get '/public' do
   @messages = Message
+    .includes(:author)
     .order(pub_date: :desc)
     .last(PR_PAGE)
 
@@ -141,6 +143,7 @@ get '/:username' do
   @profile_user = User.find_by_username(params[:username])
   @messages = Message
     .authored_by(@profile_user)
+    .includes(:author)
     .order(pub_date: :desc)
     .last(PR_PAGE)
 

@@ -48,6 +48,7 @@ get '/' do
   redirect('/public') unless logged_in?
 
   @messages = Message
+    .unflagged
     .authored_by(current_user.following + [current_user])
     .includes(:author)
     .order(pub_date: :desc)
@@ -58,6 +59,7 @@ end
 
 get '/public' do
   @messages = Message
+    .unflagged
     .includes(:author)
     .order(pub_date: :desc)
     .last(PR_PAGE)
@@ -142,6 +144,7 @@ end
 get '/:username' do
   @profile_user = User.find_by_username(params[:username])
   @messages = Message
+    .unflagged
     .authored_by(@profile_user)
     .includes(:author)
     .order(pub_date: :desc)

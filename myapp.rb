@@ -49,14 +49,17 @@ get '/' do
 
   @messages = Message
     .authored_by(current_user.following + [current_user])
+    .order(pub_date: :desc)
     .last(PR_PAGE)
-    .reverse
 
   erb :timeline, layout: :layout
 end
 
 get '/public' do
-  @messages = Message.last(PR_PAGE).reverse
+  @messages = Message
+    .order(pub_date: :desc)
+    .last(PR_PAGE)
+
   erb :timeline, layout: :layout
 end
 
@@ -136,7 +139,11 @@ end
 
 get '/:username' do
   @profile_user = User.find_by_username(params[:username])
-  @messages = Message.where(author_id: @profile_user).last(PR_PAGE).reverse
+  @messages = Message
+    .authored_by(@profile_user)
+    .order(pub_date: :desc)
+    .last(PR_PAGE)
+
   erb :timeline, layout: :layout
 end
 

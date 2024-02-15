@@ -9,6 +9,7 @@ clean:
 
 test:
 	cp /tmp/minitwit.db /tmp/minitwit_test.db
+	mkdir -p log
 	APP_ENV=test nohup bundle exec ruby myapp.rb > ./log/test.log 2>&1 &
 	sleep 2
 	- pytest refactored_minitwit_tests.py -vvv

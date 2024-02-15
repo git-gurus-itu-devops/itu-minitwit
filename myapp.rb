@@ -52,7 +52,7 @@ get '/' do
     .authored_by(current_user.following + [current_user])
     .includes(:author)
     .order(pub_date: :desc)
-    .last(PR_PAGE)
+    .first(PR_PAGE)
 
   erb :timeline, layout: :layout
 end
@@ -62,7 +62,7 @@ get '/public' do
     .unflagged
     .includes(:author)
     .order(pub_date: :desc)
-    .last(PR_PAGE)
+    .first(PR_PAGE)
 
   erb :timeline, layout: :layout
 end
@@ -148,7 +148,7 @@ get '/:username' do
     .authored_by(@profile_user)
     .includes(:author)
     .order(pub_date: :desc)
-    .last(PR_PAGE)
+    .first(PR_PAGE)
 
   erb :timeline, layout: :layout
 end

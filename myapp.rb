@@ -9,7 +9,7 @@ require './models/user'
 PR_PAGE = 30
 
 configure :production do
-  set :database, { adapter: 'sqlite3', database: '/tmp/minitwit.db' }
+  set :database, { adapter: 'sqlite3', database: './db/minitwit.db' }
   set :public_folder, "#{__dir__}/static"
   enable :sessions
 end

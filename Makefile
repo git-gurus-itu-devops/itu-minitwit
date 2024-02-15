@@ -8,10 +8,10 @@ clean:
 	rm flag_tool
 
 test:
-	cp /tmp/minitwit.db /tmp/minitwit_test.db
+	cp ./db/minitwit_dev.db ./db/minitwit_test.db
 	mkdir -p log
 	APP_ENV=test nohup bundle exec ruby myapp.rb > ./log/test.log 2>&1 &
 	sleep 2
 	- pytest refactored_minitwit_tests.py -vvv
 	pkill -f minitwit
-	rm /tmp/minitwit_test.*
+	rm ./db/minitwit_test.*

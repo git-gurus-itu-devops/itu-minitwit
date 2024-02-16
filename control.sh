@@ -1,15 +1,14 @@
 #!/bin/bash
 if [ "$1" = "init" ]; then
-
-    if [ -f "/tmp/minitwit.db" ]; then
+    if [ -f "./db/minitwit_dev.db" ]; then
         echo "Database already exists."
         exit 1
     fi
-    echo "Putting a database to /tmp/minitwit.db..."
-    python3 -c"from minitwit import init_db;init_db()"
+    echo "Putting a database to ./db/minitwit_dev.db..."
+    sqlite3 ./db/minitwit_dev.db < ./schema.sql
 elif [ "$1" = "start" ]; then
     echo "Starting minitwit..."
-    nohup "$(which python)" minitwit.py > /tmp/out.log 2>&1 &
+    nohup bundle exec ruby myapp.rb > ./log/test.log 2>&1 &
 elif [ "$1" = "stop" ]; then
     echo "Stopping minitwit..."
     pkill -f minitwit

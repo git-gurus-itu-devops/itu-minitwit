@@ -55,8 +55,25 @@ def validate_create_user(params)
   error
 end
 
+def update_latest(request)
+  parsed_command_id = request.params['latest'].to_i || -1
+
+  File.write('./latest_processed_sim_action_id.txt', parsed_command_id.to_i, mode: 'w') if parsed_command_id != -1
+end
+
+get '/latest' do
+  begin
+    content = File.read('latest_processed_sim_action_id.txt')
+    latest_processed_command_id = content.to_i
+  rescue StandardError
+    latest_processed_command_id = -1
+  end
+
+  JSON.generate({ latest: latest_processed_command_id })
+end
+
 post '/register' do
-  # TODO: update latest
+  update_latest(request)
 
   request_data = JSON.parse(request.body.read, symbolize_names: true)
 

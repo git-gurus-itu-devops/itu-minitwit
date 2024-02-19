@@ -144,3 +144,37 @@ post '/msgs/:username' do |username|
     body 'Something went wrong'
   end
 end
+
+get '/fllws/:username' do |username|
+  user = User.find_by_username(username)
+  return [400, 'User not found'] if user.nil?
+  return [400, 'no is required'] if params[:no].nil?
+  count = params[:no].to_i
+
+  following = user.following
+    .first(count)
+    .pluck(:username)
+
+  status 200
+  body({ follows: following }.to_json)
+end
+
+post '/fllws/:username' do |username|
+  user = User.find_by_username(username)
+  return [400, 'User not found'] if user.nil?
+
+  request_data = JSON.parse(request.body.read, symbolize_names: true)
+  if request_data.key?(:follow)
+    to_follow = User.find_by_username(request_data[:follow])
+    return [400, 'User to follow not found'] if to_follow.nil?
+
+    user.following.append(to_follow)
+    status 200
+  elsif request_data.key?(:unfollow)
+    to_unfollow = User.find_by_username(request_data[:unfollow])
+    return [400, 'User to unfollow not found'] if to_unfollow.nil?
+
+    user.following.delete(to_unfollow)
+    status 200
+  end
+end

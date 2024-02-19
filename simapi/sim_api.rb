@@ -61,6 +61,12 @@ def update_latest(request)
   File.write('./latest_processed_sim_action_id.txt', parsed_command_id.to_i, mode: 'w') if parsed_command_id != -1
 end
 
+before do
+  pass if request.path_info == '/latest'
+
+  update_latest(request)
+end
+
 get '/latest' do
   begin
     content = File.read('latest_processed_sim_action_id.txt')
@@ -73,8 +79,6 @@ get '/latest' do
 end
 
 post '/register' do
-  update_latest(request)
-
   request_data = JSON.parse(request.body.read, symbolize_names: true)
 
   error = validate_create_user(request_data)
@@ -92,5 +96,51 @@ post '/register' do
   else
     status 204
     body ''
+  end
+end
+
+get '/msgs' do
+  return [400, 'no is required'] if params[:no].nil?
+  count = params[:no].to_i
+
+  return Message
+    .unflagged
+    .order(pub_date: :desc)
+    .first(count)
+    .map(&:sim_format)
+    .to_json
+end
+
+get '/msgs/:username' do |username|
+  user = User.find_by_username(username)
+  return [400, 'User not found'] if user.nil?
+  return [400, 'no is required'] if params[:no].nil?
+  count = params[:no].to_i
+
+  return user.messages
+    .unflagged
+    .order(pub_date: :desc)
+    .first(count)
+    .map(&:sim_format)
+    .to_json
+end
+
+post '/msgs/:username' do |username|
+  user = User.find_by_username(username)
+  return [400, 'User not found'] if user.nil?
+
+  request_data = JSON.parse(request.body.read, symbolize_names: true)
+  message = user.messages.create(
+    text: request_data[:content],
+    pub_date: Time.now,
+    flagged: 0
+  )
+
+  if message
+    status 201
+    body message.to_json
+  else
+    status 400
+    body 'Something went wrong'
   end
 end

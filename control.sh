@@ -8,7 +8,7 @@ if [ "$1" = "init" ]; then
     sqlite3 ./db/minitwit_dev.db < ./schema.sql
 elif [ "$1" = "start" ]; then
     echo "Starting minitwit..."
-    nohup bundle exec ruby myapp.rb > ./log/test.log 2>&1 &
+    nohup bundle exec ruby myapp.rb > ./log/dev.log 2>&1 &
 elif [ "$1" = "stop" ]; then
     echo "Stopping minitwit..."
     pkill -f minitwit

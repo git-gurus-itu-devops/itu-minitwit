@@ -31,14 +31,8 @@ helpers do
     string.nil? || string.empty?
   end
 
-  def logged_in?
-    !!session[:user_id]
-  end
-
-  def current_user
-    return nil unless logged_in?
-
-    @current_user ||= User.find(session[:user_id])
+  def request_is_not_from_simulator
+    request.env['HTTP_AUTHORIZATION'] != 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
   end
 end
 
@@ -62,7 +56,11 @@ def update_latest(request)
 end
 
 before do
-  pass if request.path_info == '/latest'
+  if request_is_not_from_simulator
+    halt [403, { status: 403, error_msg: 'You are not authorized to use this resource!' }.to_json]
+  elsif request.path_info == '/latest'
+    pass
+  end
 
   update_latest(request)
 end

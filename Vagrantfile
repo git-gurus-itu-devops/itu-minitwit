@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
       override.vm.allowed_synced_folder_types = :rsync
       provider.token = TOKEN
       provider.image = 'ubuntu-22-04-x64'
-      provider.region = 'nyc1'
+      provider.region = 'fra1'
       provider.size = 's-1vcpu-1gb'
     end
 

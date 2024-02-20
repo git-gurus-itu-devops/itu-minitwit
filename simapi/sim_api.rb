@@ -92,10 +92,9 @@ post '/register' do
   end
   if error
     status 400
-    return { 'status' => 400, 'error_msg' => error }.to_json
+    body ({ status: 400, error_msg: error }.to_json)
   else
     status 204
-    body ''
   end
 end
 

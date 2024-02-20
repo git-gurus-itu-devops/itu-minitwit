@@ -75,7 +75,7 @@ get '/latest' do
     latest_processed_command_id = -1
   end
 
-  JSON.generate({ latest: latest_processed_command_id })
+  body({ latest: latest_processed_command_id }.to_json)
 end
 
 post '/register' do
@@ -92,7 +92,7 @@ post '/register' do
   end
   if error
     status 400
-    body ({ status: 400, error_msg: error }.to_json)
+    body({ status: 400, error_msg: error }.to_json)
   else
     status 204
   end

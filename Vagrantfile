@@ -1,23 +1,27 @@
 DO_BOX_URL = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
 PRIVATE_KEY_PATH = ENV["DIGITAL_OCEAN_PRIVATE_KEY_PATH"]
 TOKEN = ENV["DIGITAL_OCEAN_PAT"]
+SSH_KEY_NAME = ENV["SSH_KEY_NAME"]
 
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
-  config.vm.define "droplet1" do |droplet|
-    droplet.vm.provider :digital_ocean do |provider, override|
-      override.ssh.private_key_path = PRIVATE_KEY_PATH
+  config.ssh.private_key_path = PRIVATE_KEY_PATH
+  config.vm.synced_folder ".", "/app", type: "rsync"
+
+  # mount synced folder to vm
+  config.vm.define "droplet1" do |droplet1|
+    droplet1.vm.provider :digital_ocean do |provider, override|
       override.vm.box = 'digital_ocean'
       override.vm.box_url = DO_BOX_URL
       override.nfs.functional = false
-      override.vm.allowed_synced_folder_types = :rsync
+      provider.ssh_key_name = SSH_KEY_NAME
       provider.token = TOKEN
       provider.image = 'ubuntu-22-04-x64'
       provider.region = 'fra1'
       provider.size = 's-1vcpu-1gb'
     end
 
-    droplet.vm.provision "shell", privileged: false, inline: <<-SHELL
+    droplet1.vm.provision "shell", privileged: false, inline: <<-SHELL
       echo 'Installing Docker'
 
       # Add Docker's official GPG key:
@@ -37,6 +41,26 @@ Vagrant.configure("2") do |config|
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
       echo 'Finished installing Docker'
+
+      cd /app
+
+      echo 'Creating database directories'
+
+      mkdir -p /db
+      mkdir -p /db/api
+      mkdir -p /db/interface
+
+      cp db/minitwit.db /db/api/.
+      cp db/minitwit.db /db/interface/.
+
+      # Build Docker image and run container
+
+      echo 'Building Docker image'
+
+      docker build . -t minitwit
+
+      docker run --name interface -d -v /db/interface:/db -e DATABASE_PATH='/db/minitwit.db' -p 5000:5000 minitwit '/app/interface.sh'
+      docker run --name simapi -d -v /db/api:/db -e PORT=5001 --expose 5001 -e DATABASE_PATH='/db/minitwit.db' -p 5001:5001 minitwit '/app/api.sh'
     SHELL
   end
 end

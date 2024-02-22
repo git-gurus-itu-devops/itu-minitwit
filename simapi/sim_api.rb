@@ -6,8 +6,10 @@ require './models/message'
 require './models/user'
 require 'json'
 
+DATABASE_PATH = ENV['DATABASE_PATH'] || './db/minitwit.db'
+
 configure :production do
-  set :database, { adapter: 'sqlite3', database: './db/minitwit.db' }
+  set :database, { adapter: 'sqlite3', database: DATABASE_PATH }
   set :public_folder, "#{__dir__}/static"
   enable :sessions
 end

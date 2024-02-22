@@ -80,17 +80,17 @@ post '/register' do
   request_data = JSON.parse(request.body.read, symbolize_names: true)
 
   error = validate_create_user(request_data)
-  if !error && !User.create(
+  if error
+    status 400
+    body({ status: 400, error_msg: error }.to_json)
+  elsif !User.create(
     username: request_data[:username],
     email: request_data[:email],
     password: request_data[:pwd],
     password_confirmation: request_data[:pwd]
   )
-    error = 'Something went wrong'
-  end
-  if error
     status 400
-    body({ status: 400, error_msg: error }.to_json)
+    body({ status: 400, error_msg: 'Something went wrong' }.to_json)
   else
     status 204
   end

@@ -38,21 +38,11 @@ If `<cmd>` is not supplied, will run the app
 
 Virtual Machine provisioning is handled by Vagrant in DigitalOcean.
 Run provisioning with `vagrant up`
-The environment variables `DIGITAL_OCEAN_PRIVATE_KEY_PATH` and `DIGITAL_OCEAN_PAT` are needed.
-The first is the path to the authenticated private key, and the second is the API token.
+The environment variables `DIGITAL_OCEAN_PRIVATE_KEY_PATH`, `SSH_KEY_NAME` and `DIGITAL_OCEAN_PAT` are needed.
+The first is the path to the authenticated private key, the second is the name of your SSH key for Digital Ocean and the third is the authenticated token for the team
 
-Once the vm has been provisioned, the following is needed to deploy
+The Vagrantfile syncs the local repository to the VM so be sure to have a database in `db/minitwit.db`
 
-Push local files using scp
-`scp -i <private_key> -r <repository> root@67.205.156.216:/app/.`
+The API will be available at http://165.227.245.161:5001
 
-SSH into machine
-`vagrant ssh`
-
-Inside the machine, build the image:
-`docker build . -t minitwit`
-
-Run the container detached with the repo mounted (to save changes in db)
-
-`docker run -d -v $(pwd):/app -p 5000:5000 minitwit`
-
+The interface will be available at http://165.227.245.161:5000

@@ -73,3 +73,23 @@
 * 11:29 - Laver en Reserved IP til droplet via DigitalOcean interface
 
 * 11:30 - App kører nu på http://134.209.131.46:5000/
+
+### 20-02-2024
+
+* 15:00 - Det går op for gruppen at API også skal deployes, så Vagrantfile skal rettes
+
+* 15:30 - Vagrantfile bliver rettet til at bruge en navngivet SSH-key som bruger navnet fra miljøvariablen 'SSH\_KEY\_NAME'
+
+* 15:19 - Vagrantfile bliver rettet til at bruge en "synced folder" så SCP ikke længere er nødvendigt.
+
+* 15:20 - Vagrantfile bliver rettet til at provision en enkelt vm der kører både API og Interface som to docker containere
+
+* 15:30 - Nogle problemer med at få docker containere til at starte 
+
+### 21-02-20245
+
+* 20:30 - Der er blevet lavet to shell scripts "api.sh" og "interface.sh" som bruges som entrypoint til de to docker containere
+
+* 20:35 - Deploy kører korrekt igennem og app kan nu findes på http://165.227.245.161:5001 og http://165.227.245.161:5000
+
+

@@ -41,7 +41,7 @@ Run provisioning with `vagrant up`
 The environment variables `DIGITAL_OCEAN_PRIVATE_KEY_PATH`, `SSH_KEY_NAME` and `DIGITAL_OCEAN_PAT` are needed.
 The first is the path to the authenticated private key, the second is the name of your SSH key for Digital Ocean and the third is the authenticated token for the team
 
-The Vagrantfile syncs the local repository to the VM so be sure to have a database in `db/minitwit.db`
+The Vagrantfile syncs the local repository to the VM so be sure to have a database in `./db/minitwit.db`
 
 The API will be available at http://165.227.245.161:5001
 

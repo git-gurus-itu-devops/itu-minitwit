@@ -7,6 +7,7 @@ on:
     branches:
       - main
       - master
+      - cicd-pipeline
   # allow manual triggers for now too
   workflow_dispatch:
     manual: true

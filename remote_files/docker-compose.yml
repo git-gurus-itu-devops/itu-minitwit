@@ -7,10 +7,10 @@ services:
 
   minitwitimage:
     image: aguldborg/minitwit
-    entrypoint: /minitwit/interface.sh
+    command: bundle exec ruby myapp.rb
     container_name: interface
     environment:
-      - DATABASE_PATH="/db/minitwit.db"
+      - DATABASE_PATH=/db/minitwit.db
       - PORT=5000
     volumes:
       - /db:/db
@@ -21,10 +21,10 @@ services:
 
   minitwitsimapiimage:
     image: aguldborg/minitwit
-    entrypoint: /minitwit/api.sh
+    command: bundle exec ruby simapi/sim_api.rb
     container_name: simapi
     environment:
-      - DATABASE_PATH="/db/minitwit.db"
+      - DATABASE_PATH=/db/minitwit.db
       - PORT=5001
     volumes:
       - /db:/db

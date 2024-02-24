@@ -1,5 +1,3 @@
-source ~/.bash_profile
-
 cd /minitwit
 
 docker compose -f docker-compose.yml pull

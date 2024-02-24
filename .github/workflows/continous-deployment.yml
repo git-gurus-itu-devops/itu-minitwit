@@ -47,15 +47,15 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache,mode=max
 
-    #  - name: Build and push mysqlimage
-    #    uses: docker/build-push-action@v2
-    #    with:
-    #      context: .
-    #      file: ./Dockerfile-mysql
-    #      push: true
-    #      tags: ${{ secrets.DOCKER_USERNAME }}/mysqlimage:latest
-    #      cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
-    #      cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
+      #  - name: Build and push mysqlimage
+      #    uses: docker/build-push-action@v2
+      #    with:
+      #      context: .
+      #      file: ./Dockerfile-mysql
+      #      push: true
+      #      tags: ${{ secrets.DOCKER_USERNAME }}/mysqlimage:latest
+      #      cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
+      #      cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
 
       # - name: Build and push flagtoolimage
       #   uses: docker/build-push-action@v2
@@ -78,7 +78,7 @@ jobs:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/do_ssh_key
+          echo -n "$SSH_KEY" > ~/.ssh/do_ssh_key
           chmod 600 ~/.ssh/do_ssh_key
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}

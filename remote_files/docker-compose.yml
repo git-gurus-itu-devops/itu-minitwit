@@ -6,7 +6,7 @@ networks:
 services:
 
   minitwitimage:
-    image: ${DOCKER_USERNAME}/minitwit
+    image: aguldborg/minitwit
     entrypoint: /minitwit/interface.sh
     container_name: interface
     environment:
@@ -20,7 +20,7 @@ services:
         - "5000:5000"
 
   minitwitsimapiimage:
-    image: ${DOCKER_USERNAME}/minitwit
+    image: aguldborg/minitwit
     entrypoint: /minitwit/api.sh
     container_name: simapi
     environment:

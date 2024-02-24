@@ -47,6 +47,8 @@ Vagrant.configure("2") do |config|
 
       cd /minitwit
 
+      chmod +x ./deploy.sh
+
       echo 'Creating database directories'
 
       mkdir -p /db

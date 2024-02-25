@@ -77,9 +77,13 @@ jobs:
 
       - name: Configure SSH
         run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" | base64 -d > ~/.ssh/do_ssh_key
-          chmod 400 ~/.ssh/do_ssh_key
+          command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )
+          eval $(ssh-agent -s)
+          echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+          mkdir -p ~/.ssh
+          touch ~/.ssh/config
+          touch ~/.ssh/known_hosts
+          chmod -R 400 ~/.ssh
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
 
@@ -87,7 +91,7 @@ jobs:
         # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
         run: >
           ssh $SSH_USER@$SSH_HOST
-          -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no
+          -o StrictHostKeyChecking=no
           '/minitwit/deploy.sh'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}

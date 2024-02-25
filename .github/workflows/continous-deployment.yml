@@ -6,8 +6,6 @@ on:
     # Run workflow every time something is pushed to the main branch
     branches:
       - main
-      - master
-      - cicd-pipeline
   # allow manual triggers for now too
   workflow_dispatch:
     manual: true

@@ -6,7 +6,10 @@ SSH_KEY_NAME = ENV["SSH_KEY_NAME"]
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.ssh.private_key_path = PRIVATE_KEY_PATH
-  config.vm.synced_folder ".", "/app", type: "rsync"
+  config.vm.synced_folder "./remote_files", "/minitwit", type: "rsync"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+
 
   # mount synced folder to vm
   config.vm.define "droplet1" do |droplet1|
@@ -36,31 +39,21 @@ Vagrant.configure("2") do |config|
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
         $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
         sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-      sudo apt-get update 
+      sudo apt-get update
 
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
       echo 'Finished installing Docker'
 
-      cd /app
+      cd /minitwit
+
+      chmod +x ./deploy.sh
 
       echo 'Creating database directories'
 
       mkdir -p /db
-      mkdir -p /db/api
-      mkdir -p /db/interface
 
-      cp db/minitwit.db /db/api/.
-      cp db/minitwit.db /db/interface/.
-
-      # Build Docker image and run container
-
-      echo 'Building Docker image'
-
-      docker build . -t minitwit
-
-      docker run --name interface -d -v /db/interface:/db -e DATABASE_PATH='/db/minitwit.db' -p 5000:5000 minitwit '/app/interface.sh'
-      docker run --name simapi -d -v /db/api:/db -e PORT=5001 --expose 5001 -e DATABASE_PATH='/db/minitwit.db' -p 5001:5001 minitwit '/app/api.sh'
+      cp ./minitwit.db /db/.
     SHELL
   end
 end

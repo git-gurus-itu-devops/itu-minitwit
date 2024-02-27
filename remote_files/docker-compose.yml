@@ -1,0 +1,36 @@
+version: "3.3"
+
+networks:
+  main:
+
+services:
+
+  minitwitimage:
+    image: aguldborg/minitwit
+    command: bundle exec ruby myapp.rb
+    container_name: interface
+    environment:
+      - DATABASE_PATH=/db/minitwit.db
+      - PORT=5000
+    volumes:
+      - /db:/db
+    networks:
+      - main
+    ports:
+        - "5000:5000"
+
+  minitwitsimapiimage:
+    image: aguldborg/minitwit
+    command: bundle exec ruby simapi/sim_api.rb
+    container_name: simapi
+    environment:
+      - DATABASE_PATH=/db/minitwit.db
+      - PORT=5001
+    volumes:
+      - /db:/db
+    networks:
+      - main
+    expose:
+      - "5001"
+    ports:
+        - "5001:5001"

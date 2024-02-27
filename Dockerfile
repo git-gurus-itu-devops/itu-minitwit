@@ -5,8 +5,8 @@ ARG APP_ENV=production
 ENV APP_ENV=$APP_ENV
 ENV PORT=$PORT
 
-RUN mkdir -p /app
-WORKDIR /app
+RUN mkdir -p /minitwit
+WORKDIR /minitwit
 
 COPY Gemfile ./
 COPY Gemfile.lock ./

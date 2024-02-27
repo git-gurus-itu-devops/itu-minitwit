@@ -46,3 +46,10 @@ The Vagrantfile syncs the local repository to the VM so be sure to have a databa
 The API will be available at http://165.227.245.161:5001
 
 The interface will be available at http://165.227.245.161:5000
+
+#### Github Actions
+
+On any commits to the main branch will trigger a workflow that causes the following steps to happen:
+1. Builds the Docker image and pushes it to Docker Hub at `aguldborg/minitwit`
+2. SSH's into the Vagrant virtual machine which has been set up in [VM Provisioning & deployment](#vm-provisioning--deployment)
+3. From the virtual machine, the `deploy.sh` script is run to built and run the containers by pulling them from Docker Hub

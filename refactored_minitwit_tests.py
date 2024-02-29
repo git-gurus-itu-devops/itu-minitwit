@@ -10,12 +10,13 @@
     :license: BSD, see LICENSE for more details.
 """
 import requests
+import os
 
 
 # import schema
 # import data
 # otherwise use the database that you got previously
-BASE_URL = "http://minitwit:5000"
+BASE_URL = os.getenv('MINITWIT_BASE_URL', 'http://127.0.0.1:4567')
 
 def register(username, password, password2=None, email=None):
     """Helper function to register a user"""

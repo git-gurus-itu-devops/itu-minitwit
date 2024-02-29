@@ -5,8 +5,8 @@ networks:
     name: itu-minitwit-network
 
 services:
-  minitwitimage:
-    image: ${DOCKER_USERNAME}/minitwitimage
+  minitwit:
+    image: ${DOCKER_USERNAME}/minitwit
     container_name: minitwit
     environment:
       - DATABASE_PATH=./db/minitwit_dev.db

@@ -41,6 +41,7 @@ jobs:
       - name: Create temp database for test
         run: |
           ./control.sh init
+          chmod 0766 ./db/minitwit_dev.db
           cp ./db/minitwit_dev.db /tmp/.
 
       - name: Run minitwit container

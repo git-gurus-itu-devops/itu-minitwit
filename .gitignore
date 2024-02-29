@@ -3,4 +3,4 @@ log/*
 db/*.db*
 latest_processed_sim_action_id.txt
 .vagrant
-./remote_files/minitwit.db
+remote_files/minitwit.db

@@ -9,6 +9,8 @@ on:
   # allow manual triggers for now too
   workflow_dispatch:
     manual: true
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -16,19 +18,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push minitwit
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
@@ -36,6 +38,14 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/minitwit:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache,mode=max
+
+      - name: Run minitwit
+        run: |
+          yes 2>/dev/null | docker compose -f docker-compose-tests.yaml up -d
+          docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
+          docker run --rm --network=itu-minitwit-network -e MINITWIT_BASE_URL="http://minitwit:5000" $DOCKER_USERNAME/minitwittestimage
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Configure SSH
         run: |
@@ -47,6 +57,7 @@ jobs:
 
       - name: Deploy to server
         # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
+        if: ${{ github.ref == 'refs/heads/main' }} # Deploy only on main
         run: >
           ssh $SSH_USER@$SSH_HOST
           -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no

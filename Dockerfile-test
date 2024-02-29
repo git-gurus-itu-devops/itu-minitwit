@@ -1,0 +1,14 @@
+FROM python:3.7-alpine
+
+RUN mkdir /minitwit-tests
+
+COPY refactored_minitwit_tests.py /minitwit-tests/
+COPY requirements.txt /minitwit-tests/
+
+WORKDIR /minitwit-tests
+
+RUN pip install -r requirements.txt
+
+EXPOSE 5000
+
+ENTRYPOINT ["pytest", "-s", "refactored_minitwit_tests.py"]

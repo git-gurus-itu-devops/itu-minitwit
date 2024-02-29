@@ -40,9 +40,8 @@ jobs:
 
       - name: Run minitwit
         run: |
-          docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
           yes 2>/dev/null | docker compose up -d
-          sleep 5
+          docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
           docker run --rm --network=itu-minitwit-network $DOCKER_USERNAME/minitwittestimage
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

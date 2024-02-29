@@ -41,8 +41,7 @@ jobs:
       - name: Test minitwit
         run: |
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
-          docker pull $DOCKER_USERNAME/minitwit:latest
-          yes 2>/dev/null | docker run -d --rm -v /tmp:/tmp -p 4567:5000 minitwit
+          yes 2>/dev/null | docker run -d --rm -v /tmp:/tmp -p 4567:5000 $DOCKER_USERNAME/minitwit
           docker run --rm $DOCKER_USERNAME/minitwittestimage
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

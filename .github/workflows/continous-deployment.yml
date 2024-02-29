@@ -43,6 +43,8 @@ jobs:
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
           yes 2>/dev/null | docker run -d --rm -v /tmp:/tmp -p 4567:5000 minitwit
           docker run --rm $DOCKER_USERNAME/minitwittestimage
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Configure SSH
         run: |

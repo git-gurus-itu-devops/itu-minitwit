@@ -38,10 +38,15 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache,mode=max
 
+      - name: Create temp database for test
+        run: |
+          ./control.sh init
+          cp ./db/minitwit_dev.db /tmp/.
+
       - name: Test minitwit
         run: |
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
-          yes 2>/dev/null | docker run -d --rm -v /tmp:/tmp -p 4567:5000 $DOCKER_USERNAME/minitwit
+          yes 2>/dev/null | docker run -e DATABASE_PATH="/tmp/minitwit_dev.db" -d --rm -v /tmp:/tmp -p 4567:5000 $DOCKER_USERNAME/minitwit
           docker run --rm $DOCKER_USERNAME/minitwittestimage
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

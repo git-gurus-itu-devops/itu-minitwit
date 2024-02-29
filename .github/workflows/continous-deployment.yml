@@ -50,7 +50,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
-      - Name: Test output container logs
+      - name: Test output container logs
         run: docker logs minitwit
 
       - name: Configure SSH

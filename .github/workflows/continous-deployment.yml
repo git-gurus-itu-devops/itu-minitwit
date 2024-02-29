@@ -37,6 +37,12 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache,mode=max
 
+      - name: Test minitwit
+        run: |
+          docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
+          yes 2>/dev/null | docker run -d --rm -v /tmp:/tmp -p 4567:5000 minitwit
+          docker run --rm $DOCKER_USERNAME/minitwittestimage
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/

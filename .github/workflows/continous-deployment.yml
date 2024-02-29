@@ -46,8 +46,8 @@ jobs:
       - name: Test minitwit
         run: |
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
-          yes 2>/dev/null | docker run --name minitwit -e DATABASE_PATH="/tmp/minitwit_dev.db" -d -v /tmp:/tmp -p 4567:5000 $DOCKER_USERNAME/minitwit
-          docker run --rm $DOCKER_USERNAME/minitwittestimage
+          yes 2>/dev/null | docker run --network=main --name minitwit -e DATABASE_PATH="/tmp/minitwit_dev.db" -d -v /tmp:/tmp -p 4567:5000 $DOCKER_USERNAME/minitwit
+          docker run --network=main --rm $DOCKER_USERNAME/minitwittestimage
           docker logs minitwit
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

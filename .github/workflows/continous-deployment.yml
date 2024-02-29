@@ -46,7 +46,7 @@ jobs:
 
       - name: Run minitwit container
         run: |
-          docker run --name minitwit -e DATABASE_PATH="./db/minitwit_dev.db" -d -p 4567:5000 $DOCKER_USERNAME/minitwit
+          docker run --name minitwit -e DATABASE_PATH="./db/minitwit_dev.db" -d -p 5000:5000 $DOCKER_USERNAME/minitwit
           docker exec minitwit ./control.sh init
           docker exec minitwit bundle exec rake db:migrate
         env:
@@ -54,6 +54,7 @@ jobs:
 
       - name: Run test container
         run: |
+          sleep 2
           docker exec minitwit echo hej
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
           docker run $DOCKER_USERNAME/minitwittestimage

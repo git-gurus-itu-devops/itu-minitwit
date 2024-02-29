@@ -38,16 +38,18 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache,mode=max
 
-      - name: Create temp database for test
-        run: |
-          ./control.sh init
-          chmod 0766 ./db/minitwit_dev.db
-          cp ./db/minitwit_dev.db /tmp/.
+      # - name: Create temp database for test
+      #   run: |
+      #     ./control.sh init
+      #     chmod 0766 ./db/minitwit_dev.db
+      #     cp ./db/minitwit_dev.db /tmp/.
 
       - name: Run minitwit container
         run: |
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
-          docker run --name minitwit -e DATABASE_PATH="/tmp/minitwit_dev.db" -d -v /tmp:/tmp -p 4567:5000 $DOCKER_USERNAME/minitwit
+          docker run --name minitwit -e DATABASE_PATH="/tmp/minitwit_dev.db" -d -p 4567:5000 $DOCKER_USERNAME/minitwit
+          docker exec minitwit ./control.sh init
+          docker exec minitwit cp ./db/minitwit_dev.db ./db/minitwit.db
           docker exec minitwit bundle exec rake db:migrate
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

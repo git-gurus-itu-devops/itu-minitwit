@@ -10,4 +10,4 @@ RUN pip install pytest==5.3.5
 
 EXPOSE 5000
 
-ENTRYPOINT ["pytest", "-s", "minitwit_tests.py"]
+ENTRYPOINT ["pytest", "-s", "refactored_minitwit_tests.py"]

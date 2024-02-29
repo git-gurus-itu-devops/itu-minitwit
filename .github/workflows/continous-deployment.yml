@@ -44,18 +44,11 @@ jobs:
       #     chmod 0766 ./db/minitwit_dev.db
       #     cp ./db/minitwit_dev.db /tmp/.
 
-      - name: Run minitwit container
-        run: |
-          docker run --name minitwit -e DATABASE_PATH="./db/minitwit_dev.db" -d -p 5000:5000 $DOCKER_USERNAME/minitwit
-          docker exec minitwit ./control.sh init
-          docker exec minitwit bundle exec rake db:migrate
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-
-      - name: Run test container
+      - name: Run minitwit
         run: |
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
-          docker run $DOCKER_USERNAME/minitwittestimage
+          yes 2>/dev/null | docker compose up -d
+          docker run --rm --network=itu-minitwit-network $DOCKER_USERNAME/minitwittestimage
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 

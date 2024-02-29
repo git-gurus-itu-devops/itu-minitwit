@@ -43,14 +43,15 @@ jobs:
           ./control.sh init
           cp ./db/minitwit_dev.db /tmp/.
 
-      - name: Test minitwit
+      - name: Run minitwit container
         run: |
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
           docker run --name minitwit -e DATABASE_PATH="/tmp/minitwit_dev.db" -d -v /tmp:/tmp -p 4567:5000 $DOCKER_USERNAME/minitwit
-          docker logs minitwit
-          docker run --rm $DOCKER_USERNAME/minitwittestimage
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+      - Name: Test output container logs
+        run: docker logs minitwit
 
       - name: Configure SSH
         run: |

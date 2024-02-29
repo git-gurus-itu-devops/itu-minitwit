@@ -8,6 +8,8 @@ ENV PORT=$PORT
 RUN mkdir -p /minitwit
 WORKDIR /minitwit
 
+RUN apt update && apt install sqlite3
+
 COPY Gemfile ./
 COPY Gemfile.lock ./
 

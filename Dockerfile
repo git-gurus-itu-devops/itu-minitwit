@@ -16,3 +16,5 @@ RUN gem install bundler && bundle install
 COPY . ./
 
 EXPOSE $PORT
+
+CMD ["bundle", "exec", "ruby", "myapp.rb"]

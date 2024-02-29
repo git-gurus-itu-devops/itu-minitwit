@@ -57,6 +57,8 @@ jobs:
           docker exec minitwit echo hej
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
           docker run $DOCKER_USERNAME/minitwittestimage
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Configure SSH
         run: |

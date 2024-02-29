@@ -47,6 +47,7 @@ jobs:
         run: |
           docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
           docker run --name minitwit -e DATABASE_PATH="/tmp/minitwit_dev.db" -d -v /tmp:/tmp -p 4567:5000 $DOCKER_USERNAME/minitwit
+          docker exec minitwit bundle exec rake db:migrate
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 

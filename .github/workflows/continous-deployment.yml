@@ -9,6 +9,8 @@ on:
   # allow manual triggers for now too
   workflow_dispatch:
     manual: true
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:

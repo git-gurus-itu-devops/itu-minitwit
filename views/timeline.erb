@@ -3,7 +3,7 @@
 <h2>Timeline</h2>
 <% if logged_in? && @profile_user %>
   <div class=followstatus>
-  <% if current_user.user_id == @profile_user.user_id %>
+  <% if current_user.id == @profile_user.id %>
     This is you!
   <% elsif current_user.follows?(@profile_user) %>
     You are currently following this user.
@@ -27,7 +27,7 @@
   <li><img src="<%= message.author.gravatar(48)%>"><p>
   <strong><a href="<%= message.author.username %>"><%= message.author.username %></a></strong>
   <%= Rack::Utils.escape_html(message.text) %>
-  <small>&mdash; <%= Time.at(message.pub_date) %></small>
+  <small>&mdash; <%= message.created_at %></small>
 <% end %>
 <% if @messages.empty? %>
   <li><em>There's no message so far.</em>

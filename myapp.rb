@@ -17,7 +17,7 @@ configure :production do
 end
 
 configure :development do
-  set :database, { adapter: 'sqlite3', database: './db/minitwit_dev.db' }
+  set :database, { adapter: 'postgresql', database: 'minitwit_development' }
   set :public_folder, "#{__dir__}/static"
   ActiveRecord.verbose_query_logs = true
   enable :sessions
@@ -53,7 +53,7 @@ get '/' do
     .unflagged
     .authored_by(current_user.following + [current_user])
     .includes(:author)
-    .order(pub_date: :desc)
+    .order(created_at: :desc)
     .first(PR_PAGE)
 
   erb :timeline, layout: :layout
@@ -63,7 +63,7 @@ get '/public' do
   @messages = Message
     .unflagged
     .includes(:author)
-    .order(pub_date: :desc)
+    .order(created_at: :desc)
     .first(PR_PAGE)
 
   erb :timeline, layout: :layout
@@ -131,8 +131,7 @@ post '/add_message' do
     if Message.create(
       author_id: session[:user_id],
       text: params[:text],
-      pub_date: Time.now,
-      flagged: 0
+      flagged: false
     )
       flash[:success] = 'Your message was recorded'
     end
@@ -149,7 +148,7 @@ get '/:username' do
     .unflagged
     .authored_by(@profile_user)
     .includes(:author)
-    .order(pub_date: :desc)
+    .order(created_at: :desc)
     .first(PR_PAGE)
 
   erb :timeline, layout: :layout

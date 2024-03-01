@@ -1,8 +1,7 @@
 class Message < ActiveRecord::Base
-  self.table_name = 'message'
   belongs_to :author, class_name: 'User'
 
-  scope :unflagged, -> { where(flagged: 0) }
+  scope :unflagged, -> { where(flagged: false) }
 
   scope :authored_by, ->(users) { where(author: users) }
 
@@ -12,7 +11,7 @@ class Message < ActiveRecord::Base
     {
       content: text,
       user: author.username,
-      pub_date: pub_date
+      pub_date: created_at
     }
   end
 end

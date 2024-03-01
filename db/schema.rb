@@ -10,16 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_12_100229) do
-  create_table "follower", id: false, force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2024_03_01_114515) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "followers", force: :cascade do |t|
     t.integer "who_id"
     t.integer "whom_id"
   end
 
-# Could not dump table "message" because of following StandardError
-#   Unknown type 'string' for column 'text'
+  create_table "messages", force: :cascade do |t|
+    t.bigint "author_id"
+    t.string "text", null: false
+    t.boolean "flagged"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_messages_on_author_id"
+  end
 
-# Could not dump table "user" because of following StandardError
-#   Unknown type '' for column 'username'
+  create_table "users", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "email", null: false
+    t.string "password_digest", null: false
+  end
 
+  add_foreign_key "messages", "users", column: "author_id"
 end

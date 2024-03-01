@@ -104,7 +104,7 @@ get '/msgs' do
 
   return Message
     .unflagged
-    .order(pub_date: :desc)
+    .order(created_at: :desc)
     .first(count)
     .map(&:sim_format)
     .to_json
@@ -118,7 +118,7 @@ get '/msgs/:username' do |username|
 
   return user.messages
     .unflagged
-    .order(pub_date: :desc)
+    .order(created_at: :desc)
     .first(count)
     .map(&:sim_format)
     .to_json
@@ -131,8 +131,7 @@ post '/msgs/:username' do |username|
   request_data = JSON.parse(request.body.read, symbolize_names: true)
   message = user.messages.create(
     text: request_data[:content],
-    pub_date: Time.now,
-    flagged: 0
+    flagged: false
   )
 
   if message

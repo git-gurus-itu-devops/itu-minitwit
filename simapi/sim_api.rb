@@ -15,14 +15,14 @@ configure :production do
 end
 
 configure :development do
-  set :database, { adapter: 'sqlite3', database: './db/minitwit_dev.db' }
+  set :database, { adapter: 'postgresql', database: 'minitwit_development' }
   set :public_folder, "#{__dir__}/static"
   ActiveRecord.verbose_query_logs = true
   enable :sessions
 end
 
 configure :test do
-  set :database, { adapter: 'sqlite3', database: './db/minitwit_test.db' }
+  set :database, { adapter: 'postgresql', database: 'minitwit_test' }
   enable :sessions
   enable :logging
   ActiveRecord::Base.logger = Logger.new($stdout)

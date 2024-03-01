@@ -24,7 +24,7 @@ configure :development do
 end
 
 configure :test do
-  set :database, { adapter: 'sqlite3', database: './db/minitwit_test.db' }
+  set :database, { adapter: 'postgresql', database: 'minitwit_test' }
   enable :sessions
   enable :logging
   ActiveRecord::Base.logger = Logger.new($stdout)

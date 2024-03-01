@@ -8,10 +8,19 @@ require './models/user'
 
 PR_PAGE = 30
 
-DATABASE_PATH = ENV['DATABASE_PATH'] || './db/minitwit.db'
+DATABASE_URL = ENV['DATABASE_URL'] || 'postgresql://localhost/minitwit'
 
 configure :production do
-  set :database, { adapter: 'sqlite3', database: DATABASE_PATH }
+  db = DATABASE_URL
+  set :database, {
+    adapter: db.scheme,
+    host: db.host,
+    port: db.port,
+    database: db.path[1..],
+    user: db.user,
+    password: db.password,
+    encoding: 'utf8'
+  }
   set :public_folder, "#{__dir__}/static"
   enable :sessions
 end

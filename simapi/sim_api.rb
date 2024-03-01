@@ -146,7 +146,7 @@ end
 
 get '/fllws/:username' do |username|
   user = User.find_by_username(username)
-  return [400, 'User not found'] if user.nil?
+  return [404, 'User not found'] if user.nil?
   return [400, 'no is required'] if params[:no].nil?
   count = params[:no].to_i
 
@@ -160,7 +160,7 @@ end
 
 post '/fllws/:username' do |username|
   user = User.find_by_username(username)
-  return [400, 'User not found'] if user.nil?
+  return [404, 'User not found'] if user.nil?
 
   request_data = JSON.parse(request.body.read, symbolize_names: true)
   if request_data.key?(:follow)

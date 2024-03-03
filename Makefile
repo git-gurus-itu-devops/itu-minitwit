@@ -22,5 +22,5 @@ test_api:
 	APP_ENV=test nohup bundle exec ruby ./simapi/sim_api.rb > ./log/test.log 2>&1 &
 	sleep 2
 	- pytest minitwit_sim_api_test.py -vvv
-	pkill -f itu-minitwit
+	pkill -f minitwit
 	rm ./db/minitwit_test.*

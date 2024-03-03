@@ -137,7 +137,6 @@ post '/msgs/:username' do |username|
 
   if message
     status 204
-    body ''
   else
     status 400
     body 'Something went wrong'

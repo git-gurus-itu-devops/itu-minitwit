@@ -136,8 +136,8 @@ post '/msgs/:username' do |username|
   )
 
   if message
-    status 201
-    body message.to_json
+    status 204
+    body ''
   else
     status 400
     body 'Something went wrong'

@@ -18,12 +18,13 @@ gem "rake", "~> 13.1"
 
 gem "bcrypt", "~> 3.1"
 
-group :development do
-  gem "standard", "~> 1.33"
-  gem "solargraph"
-end
-
-
 gem "sinatra-flash", "~> 0.3.0"
 
 gem "pg", "~> 1.5"
+
+group :development, :test do
+  gem "solargraph"
+  gem "standard", "~> 1.33"
+  gem "rack-test", "~> 2.1"
+  gem "rspec", "~> 3.13"
+end

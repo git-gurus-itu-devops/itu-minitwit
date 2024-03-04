@@ -27,4 +27,5 @@ group :development, :test do
   gem "standard", "~> 1.33"
   gem "rack-test", "~> 2.1"
   gem "rspec", "~> 3.13"
+  gem "database_cleaner-active_record", "~> 2.1"
 end

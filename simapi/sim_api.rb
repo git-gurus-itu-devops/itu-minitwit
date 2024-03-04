@@ -49,7 +49,7 @@ configure :test do
 
   enable :sessions
   enable :logging
-  ActiveRecord::Base.logger = Logger.new($stdout)
+  ActiveRecord::Base.logger = Logger.new('./log/test.log')
 end
 
 helpers do

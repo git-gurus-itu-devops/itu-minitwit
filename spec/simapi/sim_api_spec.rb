@@ -15,10 +15,11 @@ RSpec.describe 'Simulator API' do
     get route, {}, 'HTTP_AUTHORIZATION' => 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
   end
 
-  def post_login(route, params)
+  def post_login(route, *)
     header "Authorization", "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
     header "Content-Type", "application/json"
-    post route, params
+    header "Connection", "close"
+    post(route, *)
   end
 
   describe "GET /" do
@@ -43,13 +44,17 @@ RSpec.describe 'Simulator API' do
       post_login "/register", @valid_request.to_json
       expect(last_response).to be_no_content
 
-      # user = User.find_by_username(@valid_request[:username])
-      # expect(user).to_not be_nil
-      # expect(user.username).to eq(@valid_request[:username])
-      # expect(user.email).to eq(@valid_request[:email])
-      # expect(user.valid_password?(@valid_request[:password])).to be true
+      user = User.find_by_username(@valid_request[:username])
+      expect(user).to_not be_nil
+      expect(user.username).to eq(@valid_request[:username])
+      expect(user.email).to eq(@valid_request[:email])
+      expect(user.password_digest).to be_present
+    end
 
-      expect(User.count).to eq(1)
+    it "updates latest" do
+      post_login "/register", @valid_request.to_json, query_params: { latest: 1 }
+      expect(last_response).to be_no_content
+      expect(File.read('./latest_processed_sim_action_id.txt')).to eq("1")
     end
   end
 end

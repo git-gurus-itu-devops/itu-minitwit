@@ -44,7 +44,7 @@ configure :test do
       encoding: 'utf8'
     }
   else
-    set :database, { adapter: 'postgresql', database: DATABASE_URL || 'minitwit_test' }
+    set :database, { adapter: 'postgresql', database: 'minitwit_test' }
   end
 
   enable :sessions

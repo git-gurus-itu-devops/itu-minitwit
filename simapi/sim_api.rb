@@ -4,6 +4,7 @@ require 'sinatra/activerecord'
 require 'sinatra'
 require './models/message'
 require './models/user'
+require './models/follower'
 require 'json'
 
 DATABASE_URL = ENV['DATABASE_URL']

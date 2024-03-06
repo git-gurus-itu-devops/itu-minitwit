@@ -6,10 +6,10 @@ require './models/message'
 require './models/user'
 require 'json'
 
-DATABASE_URL = ENV['DATABASE_URL'] || 'postgresql://localhost/minitwit'
+DATABASE_URL = ENV['DATABASE_URL']
 
 configure :production do
-  db = DATABASE_URL
+  db = URI.parse(DATABASE_URL)
   set :database, {
     adapter: db.scheme,
     host: db.host,
@@ -31,7 +31,21 @@ configure :development do
 end
 
 configure :test do
-  set :database, { adapter: 'postgresql', database: 'minitwit_test' }
+  if DATABASE_URL
+    db = URI.parse(DATABASE_URL)
+    set :database, {
+      adapter: db.scheme,
+      host: db.host,
+      port: db.port,
+      database: db.path[1..],
+      user: db.user,
+      password: db.password,
+      encoding: 'utf8'
+    }
+  else
+    set :database, { adapter: 'postgresql', database: DATABASE_URL || 'minitwit_test' }
+  end
+
   enable :sessions
   enable :logging
   ActiveRecord::Base.logger = Logger.new($stdout)

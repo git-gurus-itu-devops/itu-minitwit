@@ -12,7 +12,7 @@ PR_PAGE = 30
 DATABASE_URL = ENV['DATABASE_URL']
 
 configure :production do
-  db = DATABASE_URL
+  db = URI.parse(DATABASE_URL)
   set :database, {
     adapter: db.scheme,
     host: db.host,

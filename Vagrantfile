@@ -9,8 +9,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "./remote_files", "/minitwit", type: "rsync"
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
-
-
   # mount synced folder to vm
   config.vm.define "droplet1" do |droplet1|
     droplet1.vm.provider :digital_ocean do |provider, override|
@@ -48,12 +46,6 @@ Vagrant.configure("2") do |config|
       cd /minitwit
 
       chmod +x ./deploy.sh
-
-      echo 'Creating database directories'
-
-      mkdir -p /db
-
-      cp ./minitwit.db /db/.
     SHELL
   end
 end

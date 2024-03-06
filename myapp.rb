@@ -5,6 +5,7 @@ require 'sinatra'
 require 'sinatra/flash'
 require './models/message'
 require './models/user'
+require './models/follower'
 
 PR_PAGE = 30
 

@@ -45,3 +45,20 @@ services:
         bundle exec rake db:create
         bundle exec rake db:migrate
         bundle exec ruby myapp.rb
+    healthcheck:
+      test: ["CMD", "curl --fail http://localhost:5000"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile-test
+    container_name: test-runner
+    networks:
+      - main
+    depends_on:
+      - minitwit
+    environment:
+      - MINITWIT_BASE_URL="http://minitwit:5000"

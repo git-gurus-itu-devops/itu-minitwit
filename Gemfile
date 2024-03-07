@@ -25,3 +25,5 @@ end
 
 
 gem "sinatra-flash", "~> 0.3.0"
+
+gem "pg", "~> 1.5"

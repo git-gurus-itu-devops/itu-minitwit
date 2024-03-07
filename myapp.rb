@@ -5,26 +5,49 @@ require 'sinatra'
 require 'sinatra/flash'
 require './models/message'
 require './models/user'
+require './models/follower'
 
 PR_PAGE = 30
 
-DATABASE_PATH = ENV['DATABASE_PATH'] || './db/minitwit.db'
+DATABASE_URL = ENV['DATABASE_URL']
 
 configure :production do
-  set :database, { adapter: 'sqlite3', database: DATABASE_PATH }
+  db = URI.parse(DATABASE_URL)
+  set :database, {
+    adapter: db.scheme,
+    host: db.host,
+    port: db.port,
+    database: db.path[1..],
+    user: db.user,
+    password: db.password,
+    encoding: 'utf8'
+  }
   set :public_folder, "#{__dir__}/static"
   enable :sessions
 end
 
 configure :development do
-  set :database, { adapter: 'sqlite3', database: './db/minitwit_dev.db' }
+  set :database, { adapter: 'postgresql', database: 'minitwit_development' }
   set :public_folder, "#{__dir__}/static"
   ActiveRecord.verbose_query_logs = true
   enable :sessions
 end
 
 configure :test do
-  set :database, { adapter: 'sqlite3', database: './db/minitwit_test.db' }
+  if DATABASE_URL
+    db = URI.parse(DATABASE_URL)
+    set :database, {
+      adapter: db.scheme,
+      host: db.host,
+      port: db.port,
+      database: db.path[1..],
+      user: db.user,
+      password: db.password,
+      encoding: 'utf8'
+    }
+  else
+    set :database, { adapter: 'postgresql', database: 'minitwit_test' }
+  end
   enable :sessions
   enable :logging
   ActiveRecord::Base.logger = Logger.new($stdout)
@@ -53,7 +76,7 @@ get '/' do
     .unflagged
     .authored_by(current_user.following + [current_user])
     .includes(:author)
-    .order(pub_date: :desc)
+    .order(created_at: :desc)
     .first(PR_PAGE)
 
   erb :timeline, layout: :layout
@@ -63,7 +86,7 @@ get '/public' do
   @messages = Message
     .unflagged
     .includes(:author)
-    .order(pub_date: :desc)
+    .order(created_at: :desc)
     .first(PR_PAGE)
 
   erb :timeline, layout: :layout
@@ -131,8 +154,7 @@ post '/add_message' do
     if Message.create(
       author_id: session[:user_id],
       text: params[:text],
-      pub_date: Time.now,
-      flagged: 0
+      flagged: false
     )
       flash[:success] = 'Your message was recorded'
     end
@@ -149,7 +171,7 @@ get '/:username' do
     .unflagged
     .authored_by(@profile_user)
     .includes(:author)
-    .order(pub_date: :desc)
+    .order(created_at: :desc)
     .first(PR_PAGE)
 
   erb :timeline, layout: :layout

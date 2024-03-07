@@ -59,6 +59,7 @@ services:
     networks:
       - main
     depends_on:
-      - minitwit
+      minitwit:
+        condition: service_healthy
     environment:
       - MINITWIT_BASE_URL="http://minitwit:5000"

@@ -1,0 +1,19 @@
+test_message:
+  text: 'test message'
+  author: test_user
+  flagged: false
+
+cool_message:
+  text: 'very cool'
+  author: test_user
+  flagged: false
+
+not_cool_message:
+  text: 'very not cool'
+  author: test_user
+  flagged: false
+
+other_message:
+  text: 'other message'
+  author: 'other_user'
+  flagged: false

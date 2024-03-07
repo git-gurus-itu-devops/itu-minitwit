@@ -1,0 +1,24 @@
+# Just regular ol users
+
+other_user:
+  username: 'other'
+  email: 'jBQpW@example.com'
+  password_digest: 'cool_hashed_pwd'
+
+some_user:
+  username: 'some'
+  email: 'jBQpW@example.com'
+  password_digest: 'cool_hashed_pwd'
+
+# User with followers and following
+
+follower_user:
+  username: 'test'
+  email: 'jBQpW@example.com'
+  password_digest: 'cool_hashed_pwd'
+  followers:
+    - other_user
+    - some_user
+  following:
+    - some_user
+

@@ -3,6 +3,7 @@
 require 'sinatra/activerecord'
 require 'sinatra'
 require 'sinatra/flash'
+require 'active_support/all'
 require './models/message'
 require './models/user'
 require './models/follower'

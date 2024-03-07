@@ -48,3 +48,9 @@
         as result;
         ```
     * Result:  2.2254023112647154
+
+Categories for the above properties by interested parties in an org:
+* CPU load during the last hour/the last day. (IT dept/System admin)
+* Average response time of your application's front page. (Product owner)
+* Amount of users registered in your system. (Management)
+* Average amount of followers a user has. (Management)

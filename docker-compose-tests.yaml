@@ -46,7 +46,7 @@ services:
         bundle exec rake db:migrate
         bundle exec ruby myapp.rb
     healthcheck:
-      test: ["CMD", "curl --fail http://0.0.0.0:5000 || exit 1"]
+      test: ["CMD", "curl --fail http://minitwit:5000 || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 5

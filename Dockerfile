@@ -1,5 +1,7 @@
 FROM ruby:3.3.0
 
+RUN apt update && apt upgrade -y
+
 ARG PORT=5000
 ARG APP_ENV=production
 ENV APP_ENV=$APP_ENV

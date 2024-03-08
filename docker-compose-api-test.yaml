@@ -28,7 +28,7 @@ services:
     image: ${DOCKER_USERNAME}/minitwit-api
     container_name: minitwit-api
     depends_on:
-      minitwit-database:
+      minitwit-api-database:
         condition: service_healthy
     environment:
       - PORT=5001

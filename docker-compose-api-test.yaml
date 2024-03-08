@@ -48,7 +48,7 @@ services:
         bundle exec rake db:migrate
         bundle exec ruby simapi/sim_api.rb
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:5001/latest"]
+      test: ["CMD", "curl", "-f", "http://minitwit-api:5001/latest"]
       interval: 5s
       timeout: 5s
       retries: 5

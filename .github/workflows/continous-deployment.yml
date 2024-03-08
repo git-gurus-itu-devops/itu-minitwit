@@ -39,6 +39,16 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache,mode=max
 
+      - name: Build and push minitwit-api
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile-api
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/minitwit-api:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit-api:webbuildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit-api:webbuildcache,mode=max
+
       - name: Run minitwit
         run: |
           docker compose -f docker-compose-tests.yaml build

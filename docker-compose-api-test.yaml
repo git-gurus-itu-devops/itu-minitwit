@@ -25,9 +25,7 @@ services:
       retries: 5
 
   minitwit-api:
-    build:
-      context: .
-      dockerfile: Dockerfile-api
+    image: ${DOCKER_USERNAME}/minitwit-api
     container_name: minitwit-api
     depends_on:
       minitwit-database:
@@ -64,4 +62,4 @@ services:
       minitwit-api:
         condition: service_healthy
     environment:
-      - MINITWIT_BASE_URL=http://minitwit:5001
+      - MINITWIT_BASE_URL=http://minitwit-api:5001

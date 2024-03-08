@@ -41,9 +41,9 @@ jobs:
 
       - name: Run minitwit
         run: |
-          yes 2>/dev/null | docker compose -f docker-compose-tests.yaml up -d
-          docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-test .
-          docker run --rm --network=itu-minitwit-network -e MINITWIT_BASE_URL="http://minitwit:5000" $DOCKER_USERNAME/minitwittestimage
+          docker compose -f docker-compose-tests.yaml build
+          # https://stackoverflow.com/questions/40907954/terminate-docker-compose-when-test-container-finishes
+          yes 2>/dev/null | docker compose -f docker-compose-tests.yaml up --abort-on-container-exit --exit-code-from test-runner
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 

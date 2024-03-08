@@ -51,7 +51,7 @@ services:
       timeout: 5s
       retries: 5
 
-  test-runner:
+  api-test-runner:
     build:
       context: .
       dockerfile: Dockerfile-api-test

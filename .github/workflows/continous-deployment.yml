@@ -42,7 +42,8 @@ jobs:
       - name: Run minitwit
         run: |
           docker compose -f docker-compose-tests.yaml build
-          yes 2>/dev/null | docker compose -f docker-compose-tests.yaml up
+          # https://stackoverflow.com/questions/40907954/terminate-docker-compose-when-test-container-finishes
+          yes 2>/dev/null | docker compose -f docker-compose-tests.yaml up --abort-on-container-exit --exit-code-from test-runner
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 

@@ -46,11 +46,10 @@ services:
         bundle exec rake db:migrate
         bundle exec ruby myapp.rb
     healthcheck:
-      test: ["CMD", "curl --fail http://minitwit:5000 || exit 1"]
+      test: ["CMD", "curl", "-f", "http://minitwit:5000/public"]
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 30s
 
   test-runner:
     build:
@@ -63,4 +62,4 @@ services:
       minitwit:
         condition: service_healthy
     environment:
-      - MINITWIT_BASE_URL="http://minitwit:5000"
+      - MINITWIT_BASE_URL=http://minitwit:5000

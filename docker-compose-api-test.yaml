@@ -57,7 +57,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-api-test
-    container_name: test-runner
+    container_name: api-test-runner
     networks:
       - main
     depends_on:

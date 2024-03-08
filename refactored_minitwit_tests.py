@@ -60,6 +60,7 @@ def add_message(http_session, text):
 # testing functions
 
 def test_register():
+    exit(1)
     """Make sure registering works"""
     r = register('user1', 'default')
     assert 'You were successfully registered ' \

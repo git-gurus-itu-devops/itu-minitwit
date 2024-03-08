@@ -12,6 +12,7 @@ services:
     environment:
       - PORT=5000
       - DATABASE_URL=${DATABASE_URL} # Gets set by deploy.sh called from continous-deployment
+      - NR_LICENSE_KEY=${NR_LICENSE_KEY}
     networks:
       - main
     ports:
@@ -24,6 +25,7 @@ services:
     environment:
       - PORT=5001
       - DATABASE_URL=${DATABASE_URL}
+      - NR_LICENSE_KEY=${NR_LICENSE_KEY}
     networks:
       - main
     expose:

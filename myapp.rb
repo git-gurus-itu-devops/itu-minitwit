@@ -6,6 +6,7 @@ require 'sinatra/flash'
 require './models/message'
 require './models/user'
 require './models/follower'
+require 'newrelic_rpm'
 
 PR_PAGE = 30
 

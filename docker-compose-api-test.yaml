@@ -62,4 +62,4 @@ services:
       minitwit-api:
         condition: service_healthy
     environment:
-      - MINITWIT_BASE_URL=http://minitwit-api:5001
+      - MINITWIT_API_BASE_URL=http://minitwit-api:5001

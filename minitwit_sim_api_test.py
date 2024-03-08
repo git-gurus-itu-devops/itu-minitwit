@@ -1,8 +1,9 @@
 import json
 import base64
+import os
 import requests
 
-BASE_URL = "http://127.0.0.1:4567"
+BASE_URL = os.getenv("MINITWIT_API_BASE_URL", "http://127.0.0.1:4567")
 USERNAME = "simulator"
 PWD = "super_safe!"
 CREDENTIALS = ":".join([USERNAME, PWD]).encode("ascii")

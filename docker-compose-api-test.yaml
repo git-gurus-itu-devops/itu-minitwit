@@ -5,14 +5,14 @@ networks:
     name: itu-minitwit-network
 
 services:
-  minitwit-database:
+  minitwit-api-database:
     image: postgres:16-alpine
-    container_name: psql
+    container_name: psql-api
     networks:
       - main
     environment:
-      POSTGRES_USER: minitwit
-      POSTGRES_DB: minitwit_test
+      POSTGRES_USER: minitwit-api
+      POSTGRES_DB: minitwit-api_test
       POSTGRES_PASSWORD: '1234'
     ports:
       - 5432:5432
@@ -33,7 +33,7 @@ services:
     environment:
       - PORT=5001
       - APP_ENV=test
-      - DATABASE_URL=postgresql://minitwit:1234@minitwit-database:5432/minitwit
+      - DATABASE_URL=postgresql://minitwit-api:1234@minitwit-api-database:5432/minitwit-api_test
     networks:
       - main
     ports:

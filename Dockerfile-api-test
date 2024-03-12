@@ -2,7 +2,7 @@ FROM python:3.7-alpine
 
 RUN mkdir /minitwit-api-tests
 
-COPY minitwit_sim_api_test.py /minitwit-api-tests/
+COPY ./simapi/minitwit_sim_api_test.py /minitwit-api-tests/
 COPY requirements.txt /minitwit-api-tests/
 
 WORKDIR /minitwit-api-tests

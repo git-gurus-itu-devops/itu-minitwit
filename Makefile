@@ -23,6 +23,6 @@ test_api:
 	mkdir -p log
 	APP_ENV=test nohup bundle exec ruby ./simapi/sim_api.rb > ./log/test.log 2>&1 &
 	sleep 2
-	- pytest minitwit_sim_api_test.py -vvv
+	- pytest ./simapi/minitwit_sim_api_test.py -vvv
 	pkill -f minitwit
 	APP_ENV=test bundle exec rake db:drop

@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./simapi/Dockerfile-api
+          file: ./Dockerfile-api
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/minitwit-api:latest
 

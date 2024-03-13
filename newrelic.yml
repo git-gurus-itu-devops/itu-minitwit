@@ -13,7 +13,10 @@
 
 common: &default_settings
   # Required license key associated with your New Relic account.
-  license_key: ${NR_LICENSE_KEY} ### Manually added to inject key from environment variable
+  license_key: <%= ENV["NR_LICENSE_KEY"] %>
+  ### Manually added to inject key from environment variable. This file is interpolated by Ruby so we can use ruby code to inject the variable
+  ### https://stackoverflow.com/questions/14864743/installing-new-relic-without-adding-license-key-to-repo
+
 
   # Your application name. Renaming here affects where data displays in New
   # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications

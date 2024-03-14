@@ -6,7 +6,6 @@ SSH_KEY_NAME = ENV["SSH_KEY_NAME"]
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.ssh.private_key_path = PRIVATE_KEY_PATH
-  config.ssh.username = 'gha'
   config.vm.synced_folder "./remote_files", "/minitwit", type: "rsync"
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
@@ -43,6 +42,12 @@ Vagrant.configure("2") do |config|
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
       echo 'Finished installing Docker'
+
+      sudo ssh-import-id-gh duckth
+      sudo ssh-import-id-gh A-Guldborg
+      sudo ssh-import-id-gh fredpetersen
+      sudo ssh-import-id-gh silkeholmebonnen
+      sudo ssh-import-id-gh MadsRoager
 
       cd /minitwit
 

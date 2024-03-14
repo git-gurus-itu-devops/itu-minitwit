@@ -44,6 +44,7 @@ GEM
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     mutex_m (0.2.0)
+    newrelic_rpm (9.7.1)
     nio4r (2.7.0)
     nokogiri (1.16.2)
       mini_portile2 (~> 2.8.2)
@@ -150,6 +151,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord (~> 7.1)
   bcrypt (~> 3.1)
+  newrelic_rpm (~> 9.7)
   pg (~> 1.5)
   puma
   rackup (~> 2.1)

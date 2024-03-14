@@ -18,12 +18,13 @@ gem "rake", "~> 13.1"
 
 gem "bcrypt", "~> 3.1"
 
+gem "sinatra-flash", "~> 0.3.0"
+
+gem "pg", "~> 1.5"
+
+gem "newrelic_rpm", "~> 9.7"
+
 group :development do
   gem "standard", "~> 1.33"
   gem "solargraph"
 end
-
-
-gem "sinatra-flash", "~> 0.3.0"
-
-gem "pg", "~> 1.5"

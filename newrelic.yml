@@ -67,5 +67,7 @@ test:
 production:
   <<: *default_settings
 
-### This is also where we would have configuration for a staging environemnt, if we had one
+staging:
+  <<: *default_settings
+  app_name: 'MiniTwit (Staging)'
 

@@ -2,10 +2,6 @@
 name: Continuous Deployment
 
 on: 
-  push:
-    branches:
-      - feature/staging-env
-  
   workflow_dispatch:
 
 jobs:

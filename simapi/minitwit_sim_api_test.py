@@ -1,14 +1,9 @@
-import os
 import json
 import base64
-import sqlite3
+import os
 import requests
-from pathlib import Path
-from contextlib import closing
 
-
-BASE_URL = "http://127.0.0.1:4567"
-DATABASE = "./db/minitwit_dev.db"
+BASE_URL = os.getenv("MINITWIT_API_BASE_URL", "http://127.0.0.1:4567")
 USERNAME = "simulator"
 PWD = "super_safe!"
 CREDENTIALS = ":".join([USERNAME, PWD]).encode("ascii")

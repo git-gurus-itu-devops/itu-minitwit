@@ -83,10 +83,10 @@ def update_latest(request)
 end
 
 before do
-  if request_is_not_from_simulator
-    halt [403, { status: 403, error_msg: 'You are not authorized to use this resource!' }.to_json]
-  elsif request.path_info == '/latest'
+  if request.path_info == '/latest'
     pass
+  elsif request_is_not_from_simulator
+    halt [403, { status: 403, error_msg: 'You are not authorized to use this resource!' }.to_json]
   end
 
   update_latest(request)

@@ -1,0 +1,65 @@
+version: '3.5'
+
+networks:
+  main:
+    name: itu-minitwit-network
+
+services:
+  minitwit-api-database:
+    image: postgres:16-alpine
+    container_name: psql-api
+    networks:
+      - main
+    environment:
+      POSTGRES_USER: minitwit-api
+      POSTGRES_DB: minitwit-api_test
+      POSTGRES_PASSWORD: '1234'
+    ports:
+      - 5432:5432
+    # Add a health check so minitwit doesn't start before it is ready
+    # As described in https://github.com/peter-evans/docker-compose-healthcheck
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minitwit-api:
+    image: ${DOCKER_USERNAME}/minitwit-api
+    container_name: minitwit-api
+    depends_on:
+      minitwit-api-database:
+        condition: service_healthy
+    environment:
+      - PORT=5001
+      - APP_ENV=test
+      - DATABASE_URL=postgresql://minitwit-api:1234@minitwit-api-database:5432/minitwit-api_test
+    networks:
+      - main
+    ports:
+        - '5001:5001'
+    command:
+      - /bin/bash
+      - -c
+      - |
+        bundle exec rake db:create
+        bundle exec rake db:migrate
+        bundle exec ruby simapi/sim_api.rb
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://minitwit-api:5001/latest"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api-test-runner:
+    build:
+      context: .
+      dockerfile: ./simapi/Dockerfile-api-test
+    container_name: api-test-runner
+    networks:
+      - main
+    depends_on:
+      minitwit-api:
+        condition: service_healthy
+    environment:
+      - MINITWIT_API_BASE_URL=http://minitwit-api:5001

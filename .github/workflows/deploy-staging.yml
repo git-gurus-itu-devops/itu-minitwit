@@ -51,7 +51,6 @@ jobs:
 
       - name: Deploy to server
         # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
-        if: ${{ github.ref == 'refs/heads/main' }} # Deploy only on main
         run: >
           ssh $SSH_USER@$SSH_HOST
           -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no

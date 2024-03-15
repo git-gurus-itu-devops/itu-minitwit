@@ -57,8 +57,8 @@ jobs:
 
       - name: Run minitwit api
         run: |
-          docker compose -f ./simapi/docker-compose-api-test.yaml build
-          yes 2>/dev/null | docker simapi/compose -f docker-compose-api-test.yaml up --abort-on-container-exit --exit-code-from api-test-runner
+          docker compose -f docker-compose-api-test.yaml build
+          yes 2>/dev/null | docker compose -f docker-compose-api-test.yaml up --abort-on-container-exit --exit-code-from api-test-runner
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 

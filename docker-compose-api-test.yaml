@@ -54,7 +54,7 @@ services:
   api-test-runner:
     build:
       context: .
-      dockerfile: Dockerfile-api-test
+      dockerfile: ./simapi/Dockerfile-api-test
     container_name: api-test-runner
     networks:
       - main

@@ -65,15 +65,15 @@ def test_register():
     assert 'You were successfully registered ' \
            'and can login now' in r.text
     r = register('user1', 'default')
-    assert 'The username is already taken' in r.text
+    assert "Username has already been taken" in r.text
     r = register('', 'default')
-    assert 'You have to enter a username' in r.text
+    assert "Username can't be blank" in r.text
     r = register('meh', '')
-    assert 'You have to enter a password' in r.text
+    assert "Password can't be blank" in r.text
     r = register('meh', 'x', 'y')
-    assert 'The two passwords do not match' in r.text
+    assert "Password confirmation doesn't match Password" in r.text
     r = register('meh', 'foo', email='broken')
-    assert 'You have to enter a valid email address' in r.text
+    assert "Email is invalid" in r.text
 
 def test_login_logout():
     """Make sure logging in and logging out works"""

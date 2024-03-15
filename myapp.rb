@@ -94,17 +94,17 @@ get '/register' do
 end
 
 post '/register' do
-  u = User.new(
+  user = User.new(
     username: params[:username],
     email: params[:email],
     password: params[:password],
     password_confirmation: params[:password2]
   )
-  if u.save
+  if user.save
     flash[:success] = 'You were successfully registered and can login now'
     redirect('/login')
   else
-    errors = u.errors.map(&:full_message).join(', ')
+    errors = user.errors.map(&:full_message).join(', ')
     flash[:error] = errors
   end
   redirect('/register')

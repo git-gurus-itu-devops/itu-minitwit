@@ -3,6 +3,9 @@ name: Deploy to staging
 
 on: 
   workflow_dispatch:
+  push:
+    branches:
+      - feature/staging-env
 
 jobs:
   build:
@@ -28,6 +31,7 @@ jobs:
           build-args: |
             RACK_ENV=staging
             APP_ENV=staging
+            MINITWIT_VERSION=${{ github.sha }}
           context: .
           file: ./Dockerfile
           push: true

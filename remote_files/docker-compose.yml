@@ -6,7 +6,7 @@ networks:
 services:
 
   minitwitimage:
-    image: aguldborg/minitwit
+    image: aguldborg/minitwit:${MINITWIT_VERSION}
     command:
       - /bin/bash
       - -c
@@ -24,7 +24,7 @@ services:
       - "5000:5000"
 
   minitwitsimapiimage:
-    image: aguldborg/minitwit
+    image: aguldborg/minitwit:${MINITWIT_VERSION}
     command:
       - /bin/bash
       - -c

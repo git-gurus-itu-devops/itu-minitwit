@@ -75,7 +75,7 @@ jobs:
         run: >
           ssh $SSH_USER@$SSH_HOST
           -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no
-          '/minitwit/deploy.sh ${{ secrets.DATABASE_URL }} ${{ secrets.NR_LICENSE_KEY }}'
+          '/minitwit/deploy.sh ${{ secrets.DATABASE_URL }} ${{ secrets.NR_LICENSE_KEY }} latest'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}

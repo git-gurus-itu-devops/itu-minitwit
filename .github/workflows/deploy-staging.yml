@@ -3,9 +3,6 @@ name: Deploy to staging
 
 on: 
   workflow_dispatch:
-  push:
-    branches:
-      - feature/staging-env
 
 jobs:
   build:
@@ -37,14 +34,6 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/minitwit:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache,mode=max
-
-      - name: Build and push minitwit-api
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./simapi/Dockerfile-api
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/minitwit-api:${{ github.sha }}
 
       - name: Configure SSH
         run: |

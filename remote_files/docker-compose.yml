@@ -6,8 +6,13 @@ networks:
 services:
 
   minitwitimage:
-    image: aguldborg/minitwit
-    command: bundle exec ruby myapp.rb
+    image: aguldborg/minitwit:${MINITWIT_VERSION}
+    command:
+      - /bin/bash
+      - -c
+      - |
+        bundle exec rake db:migrate
+        bundle exec ruby myapp.rb
     container_name: interface
     environment:
       - PORT=5000
@@ -19,8 +24,13 @@ services:
       - "5000:5000"
 
   minitwitsimapiimage:
-    image: aguldborg/minitwit
-    command: bundle exec ruby simapi/sim_api.rb
+    image: aguldborg/minitwit:${MINITWIT_VERSION}
+    command:
+      - /bin/bash
+      - -c
+      - |
+        bundle exec rake db:migrate
+        bundle exec ruby simapi/sim_api.rb
     container_name: simapi
     environment:
       - PORT=5001

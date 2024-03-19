@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  validates :username, presence: true, uniqueness: true
+  validates :password, :password_confirmation, presence: true
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+
   def follows?(other_user)
     following.include?(other_user)
   end

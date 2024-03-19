@@ -54,26 +54,9 @@ configure :test do
 end
 
 helpers do
-  def nil_or_empty?(string)
-    string.nil? || string.empty?
-  end
-
   def request_is_not_from_simulator
     request.env['HTTP_AUTHORIZATION'] != 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh'
   end
-end
-
-def validate_create_user(params)
-  if nil_or_empty?(params[:username])
-    error = 'You have to enter a username'
-  elsif nil_or_empty?(params[:email]) || params[:email] !~ /@/
-    error = 'You have to enter a valid email address'
-  elsif nil_or_empty?(params[:pwd])
-    error = 'You have to enter a password'
-  elsif User.find_by_username(params[:username])
-    error = 'The username is already taken'
-  end
-  error
 end
 
 def update_latest(request)
@@ -106,20 +89,18 @@ end
 post '/register' do
   request_data = JSON.parse(request.body.read, symbolize_names: true)
 
-  error = validate_create_user(request_data)
-  if error
-    status 400
-    body({ status: 400, error_msg: error }.to_json)
-  elsif !User.create(
+  user = User.new(
     username: request_data[:username],
     email: request_data[:email],
     password: request_data[:pwd],
     password_confirmation: request_data[:pwd]
   )
-    status 400
-    body({ status: 400, error_msg: 'Something went wrong' }.to_json)
-  else
+
+  if user.save
     status 204
+  else
+    status 400
+    body({ status: 400, error_msg: user.errors.map(&:full_message)}.to_json)
   end
 end
 

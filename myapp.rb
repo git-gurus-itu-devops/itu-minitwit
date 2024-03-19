@@ -55,10 +55,6 @@ configure :test do
 end
 
 helpers do
-  def nil_or_empty?(string)
-    string.nil? || string.empty?
-  end
-
   def logged_in?
     !!session[:user_id]
   end
@@ -98,28 +94,19 @@ get '/register' do
 end
 
 post '/register' do
-  if nil_or_empty?(params[:username])
-    error = 'You have to enter a username'
-  elsif nil_or_empty?(params[:email]) || params[:email] !~ /@/
-    error = 'You have to enter a valid email address'
-  elsif nil_or_empty?(params[:password])
-    error = 'You have to enter a password'
-  elsif params[:password] != params[:password2]
-    error = 'The two passwords do not match'
-  elsif User.find_by_username(params[:username])
-    error = 'The username is already taken'
-  elsif User.create(
+  user = User.new(
     username: params[:username],
     email: params[:email],
     password: params[:password],
     password_confirmation: params[:password2]
   )
+  if user.save
     flash[:success] = 'You were successfully registered and can login now'
     redirect('/login')
   else
-    error = 'Something went wrong'
+    errors = user.errors.map(&:full_message).join(', ')
+    flash[:error] = errors
   end
-  flash[:error] = error
   redirect('/register')
 end
 

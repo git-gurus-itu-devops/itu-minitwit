@@ -6,6 +6,6 @@
 pre-push:
   commands:
     rubocop:
-      tags: backend style
+      tags: ruby style
       glob: "*.rb"
       run: bundle exec rubocop --parallel

@@ -46,7 +46,7 @@ jobs:
         run: |
           docker compose -f docker-compose-tests.yaml build
           # https://stackoverflow.com/questions/40907954/terminate-docker-compose-when-test-container-finishes
-          yes 2>/dev/null | docker compose -f docker-compose-tests.yaml up --abort-on-container-exit --exit-code-from e2e-test-runner
+          yes 2>/dev/null | docker compose -f docker-compose-tests.yaml up --abort-on-container-exit --exit-code-from test-runner
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           MINITWIT_VERSION: ${{ github.sha }}

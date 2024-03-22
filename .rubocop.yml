@@ -1,0 +1,25 @@
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
+AllCops:
+  Exclude:
+  - "/**/db/**/*"
+  - "/**/Vagrantfile" # Vagrant should probably have its own linter
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  AllowedMethods:
+  - require
+  - require_relative
+  - require_dependency
+  - yield
+  - raise
+  - puts
+  # We don't want parentheses around sinatra helpers
+  - status
+  - head
+  - body
+  - halt
+  Exclude:
+  - "/**/Gemfile"
+

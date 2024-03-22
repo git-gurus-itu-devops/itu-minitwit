@@ -58,4 +58,3 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           MINITWIT_VERSION: ${{ github.sha }}
-          

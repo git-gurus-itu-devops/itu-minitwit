@@ -30,4 +30,5 @@ group :development do
   gem "rubocop-rspec"
   gem "rubocop-shopify", require: false
   gem "bundler-audit"
+  gem "lefthook"
 end

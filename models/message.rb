@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Message < ActiveRecord::Base
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
 
   scope :unflagged, -> { where(flagged: false) }
 
@@ -11,7 +13,7 @@ class Message < ActiveRecord::Base
     {
       content: text,
       user: author.username,
-      pub_date: created_at
+      pub_date: created_at,
     }
   end
 end

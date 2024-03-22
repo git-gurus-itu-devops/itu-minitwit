@@ -16,4 +16,4 @@ COPY . ./
 RUN npm install -g yarn && yarn
 RUN yarn playwright install --with-deps
 
-ENTRYPOINT [ "yarn", "playwright", "test" ]
+ENTRYPOINT [ "CI=1", "yarn", "playwright", "test" ]

@@ -7,6 +7,16 @@ build:
 clean:
 	rm flag_tool
 
+test_e2e:
+	APP_ENV=test bundle exec rake db:create
+	APP_ENV=test bundle exec rake db:migrate
+	APP_ENV=test bundle exec rake db:seed
+	mkdir -p log
+	APP_ENV=test nohup bundle exec ruby myapp.rb > ./log/test.log 2>&1 &
+	- yarn playwright test
+	pkill -f minitwit
+	APP_ENV=test bundle exec rake db:drop
+
 test:
 	APP_ENV=test bundle exec rake db:create
 	APP_ENV=test bundle exec rake db:migrate

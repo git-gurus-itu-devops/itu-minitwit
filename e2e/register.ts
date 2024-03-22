@@ -10,7 +10,7 @@ test("should succesfully register a new user", async ({ page }) => {
   await page.fill("input[name=password]", "1234");
   await page.fill("input[name=password2]", "1234");
   await page.click("input[type=submit]");
-  await expect(page).toHaveURL(/.*login/);
+  await expect(page).toHaveURL(/.login/);
 });
 
 test("Should fail if username and email is taken", async ({ page }) => {

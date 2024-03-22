@@ -1,5 +1,5 @@
 ---
-name: Continuous Deployment
+name: Automatic Testing
 
 on:
   # allow manual triggers for now too

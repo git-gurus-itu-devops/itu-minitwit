@@ -25,7 +25,7 @@ services:
       retries: 5
 
   minitwit:
-    image: ${DOCKER_USERNAME}/minitwit
+    image: ${DOCKER_USERNAME}/minitwit:${MINITWIT_VERSION}
     container_name: minitwit
     depends_on:
       minitwit-database:

@@ -1,11 +1,7 @@
 ---
-name: Continuous Deployment
+name: Automatic Testing
 
 on:
-  push:
-    # Run workflow every time something is pushed to the main branch
-    branches:
-      - main
   # allow manual triggers for now too
   workflow_dispatch:
   pull_request:
@@ -34,7 +30,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/minitwit:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/minitwit:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwit:webbuildcache,mode=max
 
@@ -44,7 +40,7 @@ jobs:
           context: .
           file: ./simapi/Dockerfile-api
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/minitwit-api:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/minitwit-api:${{ github.sha }}
 
       - name: Run minitwit
         run: |
@@ -53,6 +49,7 @@ jobs:
           yes 2>/dev/null | docker compose -f docker-compose-tests.yaml up --abort-on-container-exit --exit-code-from test-runner
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          MINITWIT_VERSION: ${{ github.sha }}
 
       - name: Run minitwit api
         run: |
@@ -60,22 +57,4 @@ jobs:
           yes 2>/dev/null | docker compose -f docker-compose-api-test.yaml up --abort-on-container-exit --exit-code-from api-test-runner
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/do_ssh_key
-          chmod 600 ~/.ssh/do_ssh_key
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-
-      - name: Deploy to server
-        # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
-        if: ${{ github.ref == 'refs/heads/main' }} # Deploy only on main
-        run: >
-          ssh $SSH_USER@$SSH_HOST
-          -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no
-          '/minitwit/deploy.sh ${{ secrets.DATABASE_URL }} ${{ secrets.NR_LICENSE_KEY }} latest'
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+          MINITWIT_VERSION: ${{ github.sha }}

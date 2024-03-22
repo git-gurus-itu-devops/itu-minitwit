@@ -1,0 +1,6 @@
+FROM ubuntu:latest
+
+RUN npm install -g yarn && yarn
+RUN yarn playwright install --with-deps
+
+ENTRYPOINT [ "yarn", "playwright", "test" ]

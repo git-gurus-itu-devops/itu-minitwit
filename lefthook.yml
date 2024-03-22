@@ -14,3 +14,7 @@ pre-push:
       tags: ruby style
       glob: "*.rb"
       run: bundle exec rubocop --parallel
+    vagrant_validate:
+      tags: vagrant style
+      glob: "Vagrantfile"
+      run: vagrant validate

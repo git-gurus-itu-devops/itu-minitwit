@@ -6,6 +6,10 @@
 pre-push:
   parallel: true
   commands:
+    actionlint:
+      tags: gha style
+      glob: ".github/**/*.yml"
+      run: actionlint
     hadolint:
       tags: dockerfile style
       glob: "Dockerfile*"

@@ -4,7 +4,12 @@
 #   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
 #
 pre-push:
+  parallel: true
   commands:
+    hadolint:
+      tags: dockerfile style
+      glob: "Dockerfile*"
+      run: hadolint Dockerfile*
     rubocop:
       tags: ruby style
       glob: "*.rb"

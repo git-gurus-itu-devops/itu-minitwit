@@ -1,4 +1,4 @@
-version: '3.5'
+version: "3.5"
 
 networks:
   main:
@@ -13,7 +13,7 @@ services:
     environment:
       POSTGRES_USER: minitwit
       POSTGRES_DB: minitwit_test
-      POSTGRES_PASSWORD: '1234'
+      POSTGRES_PASSWORD: "1234"
     ports:
       - 5432:5432
     # Add a health check so minitwit doesn't start before it is ready
@@ -37,7 +37,7 @@ services:
     networks:
       - main
     ports:
-        - '5000:5000'
+      - "5000:5000"
     command:
       - /bin/bash
       - -c
@@ -56,6 +56,19 @@ services:
       context: .
       dockerfile: Dockerfile-test
     container_name: test-runner
+    networks:
+      - main
+    depends_on:
+      minitwit:
+        condition: service_healthy
+    environment:
+      - MINITWIT_BASE_URL=http://minitwit:5000
+
+  e2e-test-runner:
+    build:
+      context: .
+      dockerfile: e2e/Dockerfile-e2e
+    container_name: e2e-test-runner
     networks:
       - main
     depends_on:

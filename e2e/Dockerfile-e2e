@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt update && apt upgrade -y
-RUN apt install nodejs
+RUN apt install nodejs -y
 
 RUN npm install -g yarn && yarn
 RUN yarn playwright install --with-deps

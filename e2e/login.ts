@@ -45,7 +45,7 @@ test("should succesfully logout", async ({ page }) => {
   await page.getByText(
     "sign out testuser"
     ).click();
-  await expect(page).toHaveURL(/.*logout/);
+  await expect(page).toHaveURL(/.logout/);
   await expect(
     page.getByText(
     "You were logged out"

@@ -137,7 +137,7 @@ end
 
 post "/add_message" do
   if !session[:user_id]
-    return status(401)
+    return status 401
   elsif params[:text]
     if Message.create(
       author_id: session[:user_id],
@@ -166,11 +166,11 @@ get "/:username" do
 end
 
 get "/:username/follow" do
-  return status(401) unless logged_in?
+  return status 401 unless logged_in?
 
   whom = User.find_by_username(params[:username])
 
-  return status(404) if whom.nil?
+  return status 404 if whom.nil?
 
   current_user.following << whom
   flash[:success] = "You are now following &#34;#{params[:username]}&#34;"
@@ -178,7 +178,7 @@ get "/:username/follow" do
 end
 
 get "/:username/unfollow" do
-  return status(401) unless logged_in?
+  return status 401 unless logged_in?
 
   whom = User.find_by_username(params[:username])
 

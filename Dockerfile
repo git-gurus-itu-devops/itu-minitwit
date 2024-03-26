@@ -1,6 +1,9 @@
 FROM ruby:3.3.0
 
-RUN apt update && apt upgrade -y
+# https://github.com/hadolint/hadolint/wiki/DL3009
+RUN apt-get update && apt-get upgrade -y \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 ARG PORT=5000
 ARG APP_ENV=production
@@ -15,7 +18,7 @@ WORKDIR /minitwit
 COPY Gemfile ./
 COPY Gemfile.lock ./
 
-RUN gem install bundler && bundle install
+RUN gem install bundler:2.5.6 && bundle install
 
 COPY . ./
 

@@ -20,6 +20,10 @@ sudo apt update && sudo apt install libpq-dev
 - Run migrations `bundle exec rake db:migrate`
 - Start the app with `bundle exec ruby myapp.rb`
 
+### Other linters
+
+- [hadolint](https://github.com/hadolint/hadolint?tab=readme-ov-file#install) is required for Dockerfile development
+- [actionlint](https://github.com/rhysd/actionlint/blob/main/docs/install.md) is required for Github Actions development
 
 ### Run tests
 

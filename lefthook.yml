@@ -1,0 +1,24 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+#
+pre-push:
+  parallel: true
+  commands:
+    actionlint:
+      tags: gha style
+      glob: ".github/**/*.yml"
+      run: actionlint
+    hadolint:
+      tags: dockerfile style
+      glob: "Dockerfile*"
+      run: hadolint Dockerfile*
+    rubocop:
+      tags: ruby style
+      glob: "*.rb"
+      run: bundle exec rubocop --parallel
+    vagrant_validate:
+      tags: vagrant style
+      glob: "Vagrantfile"
+      run: vagrant validate

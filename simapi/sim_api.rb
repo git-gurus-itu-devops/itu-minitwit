@@ -177,7 +177,7 @@ post "/fllws/:username" do |username|
     user.following.append(to_follow)
     status 204
   elsif request_data.key?(:unfollow)
-    to_unfollow = user.following.find_by_username(request_data[:unfollow])
+    to_unfollow = User.find_by_username(request_data[:unfollow])
     return [400, "User to unfollow not found"] if to_unfollow.nil?
 
     user.following.delete(to_unfollow)

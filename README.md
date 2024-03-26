@@ -22,8 +22,8 @@ sudo apt update && sudo apt install libpq-dev
 
 ### Other linters
 
-- `hadolint` is required for Dockerfile development
-- `actionlint` is required for Github Actions development
+- [hadolint](https://github.com/hadolint/hadolint?tab=readme-ov-file#install) is required for Dockerfile development
+- [actionlint](https://github.com/rhysd/actionlint/blob/main/docs/install.md) is required for Github Actions development
 
 ### Run tests
 

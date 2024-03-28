@@ -51,19 +51,6 @@ services:
       timeout: 5s
       retries: 5
 
-  e2e-test-runner:
-    build:
-      context: .
-      dockerfile: e2e/Dockerfile-e2e
-    container_name: e2e-test-runner
-    networks:
-      - main
-    depends_on:
-      minitwit:
-        condition: service_healthy
-    environment:
-      - MINITWIT_BASE_URL=http://minitwit:5000
-
   test-runner:
     build:
       context: .
@@ -78,3 +65,17 @@ services:
         condition: service_completed_successfully
     environment:
       - MINITWIT_BASE_URL=http://minitwit:5000
+
+  e2e-test-runner:
+    build:
+      context: .
+      dockerfile: e2e/Dockerfile-e2e
+    container_name: e2e-test-runner
+    networks:
+      - main
+    depends_on:
+      minitwit:
+        condition: service_healthy
+    environment:
+      - MINITWIT_BASE_URL=http://minitwit:5000
+

@@ -42,9 +42,10 @@ services:
       - /bin/bash
       - -c
       - |
-        bundle exec rake db:create
-        bundle exec rake db:migrate
-        bundle exec ruby myapp.rb
+        APP_ENV=test bundle exec rake db:create
+        APP_ENV=test bundle exec rake db:migrate
+        APP_ENV=test bundle exec rake db:seed
+        APP_ENV=test bundle exec ruby myapp.rb
     healthcheck:
       test: ["CMD", "curl", "-f", "http://minitwit:5000/public"]
       interval: 5s

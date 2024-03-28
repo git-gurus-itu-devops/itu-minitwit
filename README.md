@@ -23,8 +23,14 @@ sudo apt update && sudo apt install libpq-dev
 
 ### Run tests
 
-Run tests with `make test`
 App cannot run while testing
+
+Run tests with `make test`
+
+Run api tests with `make test_api`
+
+Before running playwright test for the first time run `yarn install` and `yarn playwright install`
+Run playwright tests with `make test_e2e`
 
 ### Run Dockerfile
 
@@ -43,7 +49,7 @@ The volume mount should point to the local database.
 If `<cmd>` is not supplied, will run the app
 
 
-### VM Provisioning & Deployment 
+### VM Provisioning & Deployment
 
 Virtual Machine provisioning is handled by Vagrant in DigitalOcean.
 Run provisioning with `vagrant up`

@@ -44,6 +44,7 @@ services:
       - |
         bundle exec rake db:create
         bundle exec rake db:migrate
+        bundle exec rake db:seed
         bundle exec ruby myapp.rb
     healthcheck:
       test: ["CMD", "curl", "-f", "http://minitwit:5000/public"]
@@ -51,11 +52,11 @@ services:
       timeout: 5s
       retries: 5
 
-  test-runner:
+  e2e-test-runner:
     build:
       context: .
-      dockerfile: Dockerfile-test
-    container_name: test-runner
+      dockerfile: e2e/Dockerfile-e2e
+    container_name: e2e-test-runner
     networks:
       - main
     depends_on:

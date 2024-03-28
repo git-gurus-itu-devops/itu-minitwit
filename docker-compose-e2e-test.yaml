@@ -51,11 +51,11 @@ services:
       timeout: 5s
       retries: 5
 
-  test-runner:
+  e2e-test-runner:
     build:
       context: .
-      dockerfile: Dockerfile-test
-    container_name: test-runner
+      dockerfile: e2e/Dockerfile-e2e
+    container_name: e2e-test-runner
     networks:
       - main
     depends_on:

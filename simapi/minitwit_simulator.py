@@ -32,10 +32,10 @@ HEADERS = {
 SHORT_NUMBER = 1000
 
 
-def get_actions(short=False):
+def get_actions(short=False, csv_filename=CSV_FILENAME):
 
     # read scenario .csv and parse to a list of lists
-    with open(CSV_FILENAME, "r", encoding="utf-8") as f:
+    with open(csv_filename, "r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t", quotechar=None)
 
         # for each line in .csv
@@ -107,8 +107,8 @@ def get_actions(short=False):
                 print(traceback.format_exc())
 
 
-def main(host, short=False):
-    for action, delay in get_actions(short):
+def main(host, short=False, csv_filename=CSV_FILENAME):
+    for action, delay in get_actions(short, csv_filename):
         try:
             # SWITCH ON TYPE
             command = action["post_type"]
@@ -330,6 +330,8 @@ def main(host, short=False):
 if __name__ == "__main__":
     host = sys.argv[1]
 
+    if len(sys.argv) > 3:
+        main(host, sys.argv[2], sys.argv[3])
     if len(sys.argv) > 2:
         main(host, sys.argv[2])
     else:

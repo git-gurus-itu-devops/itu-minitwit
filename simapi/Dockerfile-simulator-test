@@ -9,4 +9,4 @@ WORKDIR /minitwit-api-tests
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT python ./minitwit_simulator.py "http://minitwit-api:5001" true > ./simulator_output.txt && pytest ./minitwit_simulator_test.py
+ENTRYPOINT python ./minitwit_simulator.py "http://minitwit-api:5001" true "./minitwit_scenario.csv" > ./simulator_output.txt && pytest ./minitwit_simulator_test.py

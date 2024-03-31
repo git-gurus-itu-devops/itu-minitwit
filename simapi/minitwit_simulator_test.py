@@ -20,7 +20,7 @@ def test_file_line_count(log_file):
 
     # Assert that the number of lines is less than the threshold
     assert (
-        len(lines) < 1
+        len(lines) < 0
     ), f"Number of lines exceeds the threshold of {MAX_LINES_THRESHOLD}"
 
 

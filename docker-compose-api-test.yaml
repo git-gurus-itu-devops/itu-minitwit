@@ -64,13 +64,3 @@ services:
     environment:
       - MINITWIT_API_BASE_URL=http://minitwit-api:5001
 
-  simulator-test-runner:
-    build:
-      context: .
-      dockerfile: ./simapi/Dockerfile-simulator-test
-    container_name: simulator-test-runner
-    networks:
-      - main
-    depends_on:
-      minitwit-api:
-        condition: service_healthy

@@ -67,16 +67,10 @@ services:
   simulator-test-runner:
     build:
       context: .
-      dockerfile: ./simapi/Dockerfile-api-test
+      dockerfile: ./simapi/Dockerfile-simulator-test
     container_name: simulator-test-runner
     networks:
       - main
     depends_on:
       minitwit-api:
         condition: service_healthy
-    command:
-      - /bin/bash
-      - -c
-      - |
-        python ./minitwit_simulator.py "http://minitwit-api:5001" true > ./simulator_output.txt
-        pytest ./minitwit_simulator_test.py

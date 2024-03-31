@@ -11,4 +11,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5001
 
-ENTRYPOINT ["pytest", "-s", "minitwit_sim_api_test.py"]
+ENTRYPOINT pytest -s minitwit_sim_api_test.py && python ./minitwit_simulator.py "http://minitwit-api:5001" true "./minitwit_scenario.csv" > ./simulator_output.txt && pytest ./minitwit_simulator_test.py

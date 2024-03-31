@@ -1,5 +1,6 @@
 # test_file_lines.py
 import pytest
+import sys
 
 # Define the maximum number of lines allowed in the file
 MAX_LINES_THRESHOLD = 10
@@ -8,7 +9,8 @@ MAX_LINES_THRESHOLD = 10
 # Define the fixture to open the file
 @pytest.fixture
 def log_file():
-    with open("./simapi/simulator_output.txt") as file:
+    file_name = sys.argv[2]
+    with open(file_name) as file:
         yield file
 
 

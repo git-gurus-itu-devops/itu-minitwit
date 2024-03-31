@@ -44,7 +44,7 @@ test_sim_api:
 	mkdir -p log
 	APP_ENV=test nohup bundle exec ruby ./simapi/sim_api.rb > ./log/test.log 2>&1 &
 	sleep 2
-	- python ./simapi/minitwit_simulator.py "http://127.0.0.1:4567" true > ./simapi/simulator_output.txt
+	- python ./simapi/minitwit_simulator.py "http://127.0.0.1:4567" "./simapi/minitwit_scenario.csv" true > ./simapi/simulator_output.txt
 	- pytest simapi/minitwit_simulator_test.py
 	pkill -f minitwit
 	APP_ENV=test bundle exec rake db:drop

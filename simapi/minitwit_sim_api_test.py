@@ -27,8 +27,7 @@ def test_latest():
     url = f"{BASE_URL}/latest"
     response = requests.get(url, headers=HEADERS)
     assert response.ok
-    # assert response.json()["latest"] == 1337
-    assert response.json()["latest"] == 1
+    assert response.json()["latest"] == 1337
 
 
 def test_register():

@@ -27,7 +27,7 @@ HEADERS = {
     "Content-Type": "application/json",
     f"Authorization": f"Basic {ENCODED_CREDENTIALS}",
 }
-SHORT_NUMBER = 100
+SHORT_NUMBER = 1000
 
 
 def get_actions(csv_filename, short=False):

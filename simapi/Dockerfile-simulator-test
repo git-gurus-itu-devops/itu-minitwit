@@ -9,6 +9,4 @@ WORKDIR /minitwit-api-tests
 
 RUN pip install -r requirements.txt
 
-RUN chmod +x ./simulator_entrypoint.sh
-
-ENTRYPOINT ["./simapi/simulator_entrypoint.sh"]
+ENTRYPOINT python ./minitwit_simulator.py "http://minitwit-api:5001" true > ./simulator_output.txt && pytest ./minitwit_simulator_test.py

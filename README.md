@@ -29,6 +29,8 @@ Run tests with `make test`
 
 Run api tests with `make test_api`
 
+Run api-simulator tests with `make test_sim_api`
+
 Before running playwright test for the first time run `yarn install` and `yarn playwright install`
 Run playwright tests with `make test_e2e`
 

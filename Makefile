@@ -37,3 +37,14 @@ test_api:
 	- pytest ./simapi/minitwit_sim_api_test.py -vvv
 	pkill -f minitwit
 	APP_ENV=test bundle exec rake db:drop
+
+test_sim_api:
+	APP_ENV=test bundle exec rake db:create
+	APP_ENV=test bundle exec rake db:migrate
+	mkdir -p log
+	APP_ENV=test nohup bundle exec ruby ./simapi/sim_api.rb > ./log/test.log 2>&1 &
+	sleep 2
+	- python ./simapi/minitwit_simulator.py "http://127.0.0.1:4567" true > ./simapi/simulator_output.txt
+	- pytest simapi/minitwit_simulator_test.py
+	pkill -f minitwit
+	APP_ENV=test bundle exec rake db:drop

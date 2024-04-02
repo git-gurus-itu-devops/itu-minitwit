@@ -30,7 +30,7 @@ HEADERS = {
 ACTIONS_LIMIT = 1000
 
 
-def get_actions(csv_filename, short=False):
+def get_actions(csv_filename, limit=False):
 
     # read scenario .csv and parse to a list of lists
     with open(csv_filename, "r", encoding="utf-8") as f:
@@ -39,7 +39,7 @@ def get_actions(csv_filename, short=False):
         # for each line in .csv
         i = 0
         for line in reader:
-            if short and i > ACTIONS_LIMIT:
+            if limit and i > ACTIONS_LIMIT:
                 break
             i += 1
             try:
@@ -105,8 +105,8 @@ def get_actions(csv_filename, short=False):
                 print(traceback.format_exc())
 
 
-def main(host, csv_filename, short=False):
-    for action, delay in get_actions(csv_filename, short):
+def main(host, csv_filename, limit=False):
+    for action, delay in get_actions(csv_filename, limit):
         try:
             # SWITCH ON TYPE
             command = action["post_type"]

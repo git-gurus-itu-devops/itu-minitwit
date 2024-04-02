@@ -27,7 +27,7 @@ HEADERS = {
     "Content-Type": "application/json",
     f"Authorization": f"Basic {ENCODED_CREDENTIALS}",
 }
-SHORT_NUMBER = 1000
+ACTIONS_LIMIT = 1000
 
 
 def get_actions(csv_filename, short=False):
@@ -39,7 +39,7 @@ def get_actions(csv_filename, short=False):
         # for each line in .csv
         i = 0
         for line in reader:
-            if short and i > SHORT_NUMBER:
+            if short and i > ACTIONS_LIMIT:
                 break
             i += 1
             try:

@@ -18,8 +18,6 @@ from datetime import datetime
 from contextlib import closing
 import sqlite3
 
-
-CSV_FILENAME = "./minitwit_scenario.csv"
 USERNAME = "simulator"
 PWD = "super_safe!"
 CREDENTIALS = ":".join([USERNAME, PWD]).encode("ascii")
@@ -29,16 +27,21 @@ HEADERS = {
     "Content-Type": "application/json",
     f"Authorization": f"Basic {ENCODED_CREDENTIALS}",
 }
+ACTIONS_LIMIT = 1000
 
 
-def get_actions():
+def get_actions(csv_filename, limit=False):
 
     # read scenario .csv and parse to a list of lists
-    with open(CSV_FILENAME, "r", encoding="utf-8") as f:
+    with open(csv_filename, "r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t", quotechar=None)
 
         # for each line in .csv
+        i = 0
         for line in reader:
+            if limit and i > ACTIONS_LIMIT:
+                break
+            i += 1
             try:
                 # we know that the command string is always the fourth element
                 command = line[3]
@@ -102,8 +105,8 @@ def get_actions():
                 print(traceback.format_exc())
 
 
-def main(host):
-    for action, delay in get_actions():
+def main(host, csv_filename, limit=False):
+    for action, delay in get_actions(csv_filename, limit):
         try:
             # SWITCH ON TYPE
             command = action["post_type"]
@@ -324,5 +327,9 @@ def main(host):
 
 if __name__ == "__main__":
     host = sys.argv[1]
+    csv_filename = sys.argv[2]
 
-    main(host)
+    if len(sys.argv) > 3:
+        main(host, csv_filename, sys.argv[3])
+    else:
+        main(host, csv_filename)

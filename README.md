@@ -26,6 +26,8 @@ sudo apt update && sudo apt install libpq-dev
 Run tests with `make test`
 App cannot run while testing
 
+Run simulator tests with `make test_sim_api`
+
 ### Run Dockerfile
 
 Build the Dockerfile
@@ -43,7 +45,7 @@ The volume mount should point to the local database.
 If `<cmd>` is not supplied, will run the app
 
 
-### VM Provisioning & Deployment 
+### VM Provisioning & Deployment
 
 Virtual Machine provisioning is handled by Vagrant in DigitalOcean.
 Run provisioning with `vagrant up`

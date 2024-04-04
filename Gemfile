@@ -25,6 +25,10 @@ gem "pg", "~> 1.5"
 gem "newrelic_rpm", "~> 9.7"
 
 group :development do
-  gem "standard", "~> 1.33"
-  gem "solargraph"
+  gem "ruby-lsp"
+  gem "rubocop", "~> 1.62", require: false
+  gem "rubocop-rspec"
+  gem "rubocop-shopify", require: false
+  gem "bundler-audit"
+  gem "lefthook"
 end

@@ -20,6 +20,10 @@ sudo apt update && sudo apt install libpq-dev
 - Run migrations `bundle exec rake db:migrate`
 - Start the app with `bundle exec ruby myapp.rb`
 
+### Other linters
+
+- [hadolint](https://github.com/hadolint/hadolint?tab=readme-ov-file#install) is required for Dockerfile development
+- [actionlint](https://github.com/rhysd/actionlint/blob/main/docs/install.md) is required for Github Actions development
 
 ### Run tests
 
@@ -31,6 +35,8 @@ Run api tests with `make test_api`
 
 Before running playwright test for the first time run `yarn install` and `yarn playwright install`
 Run playwright tests with `make test_e2e`
+
+Run simulator tests with `make test_sim_api`
 
 ### Run Dockerfile
 

@@ -1,9 +1,17 @@
+# frozen_string_literal: true
+
 require "sqlite3"
 require "pg"
-require './myapp'
+require "./myapp"
 
 namespace :one_offs do
   task :pg_migrate do
+    # rubocop:disable all
+    # Rubocop is disabled for this task for the following reason:
+    # This task has already been run and is really only here for archival purposes.
+    # I don't think we should mess with this code as this is the code that was run in production.
+    # - atro
+
     if User.any? || Follower.any? || Message.any?
       raise "Current database contains data"
     end

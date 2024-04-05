@@ -56,6 +56,8 @@ services:
     build:
       context: .
       dockerfile: e2e/Dockerfile-e2e
+    volumes:
+      - ./playwright-report:/playwright-report
     container_name: e2e-test-runner
     networks:
       - main
@@ -64,4 +66,3 @@ services:
         condition: service_healthy
     environment:
       - MINITWIT_BASE_URL=http://minitwit:5000
-

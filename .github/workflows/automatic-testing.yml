@@ -51,7 +51,6 @@ jobs:
           MINITWIT_VERSION: ${{ github.sha }}
 
       - name: Run e2e minitwit
-        continue-on-error: true
         run: |
           docker compose -f docker-compose-e2e-test.yaml build
           yes 2>/dev/null | docker compose -f docker-compose-e2e-test.yaml up --abort-on-container-exit --exit-code-from e2e-test-runner
@@ -60,6 +59,7 @@ jobs:
           MINITWIT_VERSION: ${{ github.sha }}
 
       - name: Upload e2e report
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report

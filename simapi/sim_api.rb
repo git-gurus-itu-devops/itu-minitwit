@@ -2,12 +2,9 @@
 
 require "sinatra/activerecord"
 require "sinatra"
-require "./models/message"
-require "./models/user"
-require "./models/follower"
-require "./models/latest"
 require "json"
 require "newrelic_rpm"
+Dir["./models/*.rb"].each { |file| require file }
 
 DATABASE_URL = ENV.fetch("DATABASE_URL", nil)
 

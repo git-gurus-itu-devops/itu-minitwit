@@ -58,8 +58,8 @@ helpers do
 end
 
 def update_latest(request)
-  parsed_command_id = request.params["latest"].to_i || -1
-  Latest.set(parsed_command_id)
+  parsed_command_id = request.params["latest"]
+  Latest.set(parsed_command_id.to_i) if parsed_command_id.present?
 end
 
 before do

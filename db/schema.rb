@@ -27,7 +27,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_09_222738) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_messages_on_author_id"
-    t.index ["created_at"], name: "index_messages_on_created_at"
+    t.index ["created_at"], name: "index_messages_on_created_at", order: :desc
     t.index ["flagged"], name: "index_messages_on_flagged"
   end
 

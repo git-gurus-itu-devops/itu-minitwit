@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_01_114515) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_09_222738) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "followers", force: :cascade do |t|
     t.integer "who_id"
     t.integer "whom_id"
+    t.index ["who_id", "whom_id"], name: "index_followers_on_who_id_and_whom_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -26,6 +27,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_01_114515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_messages_on_author_id"
+    t.index ["created_at"], name: "index_messages_on_created_at", order: :desc
+    t.index ["flagged"], name: "index_messages_on_flagged"
   end
 
   create_table "users", force: :cascade do |t|

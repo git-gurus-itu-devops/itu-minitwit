@@ -1,11 +1,14 @@
-version: "3.3"
+version: "3.4"
 
 networks:
   main:
 
 services:
-
   minitwitimage:
+    deploy:
+      replicas: 1
+      update_config:
+        order: start-first
     image: aguldborg/minitwit:${MINITWIT_VERSION}
     command:
       - /bin/bash
@@ -25,6 +28,10 @@ services:
 
   minitwitsimapiimage:
     image: aguldborg/minitwit:${MINITWIT_VERSION}
+    deploy:
+      replicas: 3
+      update_config:
+        order: start-first
     command:
       - /bin/bash
       - -c
@@ -42,3 +49,4 @@ services:
       - "5001"
     ports:
       - "5001:5001"
+

@@ -52,6 +52,7 @@ configure :test do
   enable :sessions
   enable :logging
   ActiveRecord::Base.logger = Logger.new($stdout)
+  set :public_folder, "#{__dir__}/static"
 end
 
 helpers do

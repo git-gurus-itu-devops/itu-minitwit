@@ -5,9 +5,6 @@ networks:
 
 services:
   minitwitimage:
-    deploy:
-      update_config:
-        order: start-first
     image: aguldborg/minitwit:${MINITWIT_VERSION}
     command:
       - /bin/bash
@@ -26,9 +23,6 @@ services:
       - "5000:5000"
 
   minitwitsimapiimage:
-    deploy:
-      update_config:
-        order: start-first
     image: aguldborg/minitwit:${MINITWIT_VERSION}
     command:
       - /bin/bash

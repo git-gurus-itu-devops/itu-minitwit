@@ -6,9 +6,9 @@ networks:
 services:
   minitwitimage:
     deploy:
-        replicas: 1
-        update_config:
-          order: start-first
+      replicas: 1
+      update_config:
+        order: start-first
     image: aguldborg/minitwit:${MINITWIT_VERSION}
     command:
       - /bin/bash

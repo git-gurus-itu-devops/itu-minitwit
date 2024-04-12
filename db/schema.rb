@@ -20,6 +20,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_09_222738) do
     t.index ["who_id", "whom_id"], name: "index_followers_on_who_id_and_whom_id"
   end
 
+  create_table "latest", force: :cascade do |t|
+    t.integer "value"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.bigint "author_id"
     t.string "text", null: false

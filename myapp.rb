@@ -3,10 +3,8 @@
 require "sinatra/activerecord"
 require "sinatra"
 require "sinatra/flash"
-require "./models/message"
-require "./models/user"
-require "./models/follower"
 require "newrelic_rpm"
+Dir["./models/*.rb"].each { |file| require file }
 
 PR_PAGE = 30
 

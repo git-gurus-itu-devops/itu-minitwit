@@ -2,11 +2,9 @@
 
 require "sinatra/activerecord"
 require "sinatra"
-require "./models/message"
-require "./models/user"
-require "./models/follower"
 require "json"
 require "newrelic_rpm"
+Dir["./models/*.rb"].each { |file| require file }
 
 DATABASE_URL = ENV.fetch("DATABASE_URL", nil)
 
@@ -60,9 +58,8 @@ helpers do
 end
 
 def update_latest(request)
-  parsed_command_id = request.params["latest"].to_i || -1
-
-  File.write("./latest_processed_sim_action_id.txt", parsed_command_id.to_i, mode: "w") if parsed_command_id != -1
+  parsed_command_id = request.params["latest"]
+  Latest.set(parsed_command_id.to_i) if parsed_command_id.present?
 end
 
 before do
@@ -76,14 +73,7 @@ before do
 end
 
 get "/latest" do
-  begin
-    content = File.read("latest_processed_sim_action_id.txt")
-    latest_processed_command_id = content.to_i
-  rescue StandardError
-    latest_processed_command_id = -1
-  end
-
-  body({ latest: latest_processed_command_id }.to_json)
+  body({ latest: Latest.get }.to_json)
 end
 
 post "/register" do

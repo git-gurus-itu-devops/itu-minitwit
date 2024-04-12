@@ -29,7 +29,7 @@ services:
   minitwitsimapiimage:
     image: aguldborg/minitwit:${MINITWIT_VERSION}
     deploy:
-      replicas: 1
+      replicas: 3
       update_config:
         order: start-first
     command:

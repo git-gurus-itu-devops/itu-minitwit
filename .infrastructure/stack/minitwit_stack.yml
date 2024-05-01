@@ -1,5 +1,8 @@
 version: '3.4'
 
+networks:
+  main:
+
 services:
   # visualizer:
   #   image: dockersamples/visualizer:stable
@@ -20,9 +23,7 @@ services:
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
     deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == leader]
+      replicas: 2
   certbot:
     image: certbot/certbot:latest
     volumes:

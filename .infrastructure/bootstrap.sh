@@ -38,13 +38,23 @@ bash scripts/gen_load_balancer_config.sh
 echo -e "\n--> Copying loadbalancer configuration to nodes\n"
 bash scripts/scp_load_balancer_config.sh
 
+echo -e "\n--> Copying deploy script and docker-compose config\n"
+scp \
+	-i ssh_key/terraform \
+	stack/deploy.sh \
+	root@$(terraform output -raw minitwit-swarm-leader-ip-address):/root/deploy.sh
+scp \
+	-i ssh_key/terraform \
+	stack/minitwit_stack.yml \
+	root@$(terraform output -raw minitwit-swarm-leader-ip-address):/root/minitwit_stack.yml
+
 # deploy the stack to the cluster
 echo -e "\n--> Deploying the Minitwit stack to the cluster\n"
 ssh \
 	-o 'StrictHostKeyChecking no' \
 	root@$(terraform output -raw minitwit-swarm-leader-ip-address) \
 	-i ssh_key/terraform \
-	"deploy.sh ${DATABASE_URL} ${NR_LICENSE_KEY} ${MINITWIT_VERSION}"
+	"./deploy.sh ${DATABASE_URL} ${NR_LICENSE_KEY} ${MINITWIT_VERSION}"
 
 echo -e "\n--> Done bootstrapping Minitwit"
 echo -e "--> The dbs will need a moment to initialize, this can take up to a couple of minutes..."

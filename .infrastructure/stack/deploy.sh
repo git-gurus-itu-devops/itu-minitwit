@@ -1,4 +1,5 @@
 # Set by continous-deployment, pulled from GH secrets
+# test
 export DATABASE_URL=$1
 export NR_LICENSE_KEY=$2
 export MINITWIT_VERSION=$3

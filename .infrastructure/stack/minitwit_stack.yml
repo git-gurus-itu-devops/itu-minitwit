@@ -13,23 +13,6 @@ services:
   #   deploy:
   #     placement:
   #       constraints: [node.role == manager]
-  loadbalancer:
-    image: nginx
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - /loadbalancer:/etc/nginx/conf.d/:ro
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
-    deploy:
-      replicas: 2
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-
   interface:
     deploy:
       replicas: 1

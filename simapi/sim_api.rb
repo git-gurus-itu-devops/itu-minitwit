@@ -8,6 +8,10 @@ Dir["./models/*.rb"].each { |file| require file }
 
 DATABASE_URL = ENV.fetch("DATABASE_URL", nil)
 
+NO_IS_REQUIRED = "no is required"
+
+USER_NOT_FOUND = "User not found"
+
 configure :production, :staging do
   db = URI.parse(DATABASE_URL)
   set :database, {
@@ -95,7 +99,7 @@ post "/register" do
 end
 
 get "/msgs" do
-  return [400, "no is required"] if params[:no].nil?
+  return [400, NO_IS_REQUIRED] if params[:no].nil?
 
   count = params[:no].to_i
 
@@ -109,8 +113,8 @@ end
 
 get "/msgs/:username" do |username|
   user = User.find_by_username(username)
-  return [400, "User not found"] if user.nil?
-  return [400, "no is required"] if params[:no].nil?
+  return [400, USER_NOT_FOUND] if user.nil?
+  return [400, NO_IS_REQUIRED] if params[:no].nil?
 
   count = params[:no].to_i
 
@@ -124,7 +128,7 @@ end
 
 post "/msgs/:username" do |username|
   user = User.find_by_username(username)
-  return [400, "User not found"] if user.nil?
+  return [400, USER_NOT_FOUND] if user.nil?
 
   request_data = JSON.parse(request.body.read, symbolize_names: true)
   message = user.messages.create(
@@ -142,8 +146,8 @@ end
 
 get "/fllws/:username" do |username|
   user = User.find_by_username(username)
-  return [404, "User not found"] if user.nil?
-  return [400, "no is required"] if params[:no].nil?
+  return [404, USER_NOT_FOUND] if user.nil?
+  return [400, NO_IS_REQUIRED] if params[:no].nil?
 
   count = params[:no].to_i
 
@@ -157,7 +161,7 @@ end
 
 post "/fllws/:username" do |username|
   user = User.find_by_username(username)
-  return [404, "User not found"] if user.nil?
+  return [404, USER_NOT_FOUND] if user.nil?
 
   request_data = JSON.parse(request.body.read, symbolize_names: true)
   if request_data.key?(:follow)

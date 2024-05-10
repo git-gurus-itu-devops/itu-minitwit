@@ -78,7 +78,7 @@ def add_message(http_session, text):
 def test_register():
     """Make sure registering works"""
     r = register("user1", "default")
-    assert "You were successfully registered " "and can login now" in r.text
+    assert "You were successfully registered and can login now" in r.text
     r = register("user1", "default")
     assert "Username has already been taken" in r.text
     r = register("", "default")

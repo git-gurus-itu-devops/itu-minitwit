@@ -24,16 +24,6 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
     timeout     = "2m"
   }
 
-  provisioner "file" {
-    source      = "stack/minitwit_stack.yml"
-    destination = "/root/minitwit_stack.yml"
-  }
-
-  provisioner "file" {
-    source      = "stack/deploy.sh"
-    destination = "/root/deploy.sh"
-  }
-
   provisioner "remote-exec" {
     inline = [
       # allow ports for docker swarm
@@ -48,11 +38,26 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
 
       "ufw allow 22",
 
-      # install new relic agent
-      "curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.nr_user_key} NEW_RELIC_ACCOUNT_ID=4382689 NEW_RELIC_REGION=EU /usr/local/bin/newrelic install -y",
+
+      # install nginx
+      "apt install -y curl gnupg2 ca-certificates lsb-release debian-archive-keyring",
+
+      "echo 'deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian `lsb_release -cs` nginx' | sudo tee /etc/apt/sources.list.d/nginx.list",
+      "apt update && apt install -y nginx",
+
+      # install cerbot
+      "snap install --classic certbot",
+      "ln -s /snap/bin/certbot /usr/bin/certbot",
 
       # initialize docker swarm cluster
       "docker swarm init --advertise-addr ${self.ipv4_address}"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      # install new relic agent
+      "curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.nr_user_key} NEW_RELIC_ACCOUNT_ID=4382689 NEW_RELIC_REGION=EU /usr/local/bin/newrelic install -y",
     ]
   }
 
@@ -117,11 +122,15 @@ resource "digitalocean_droplet" "minitwit-swarm-manager" {
 
       "ufw allow 22",
 
-      # install new relic agent
-      "curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.nr_user_key} NEW_RELIC_ACCOUNT_ID=4382689 NEW_RELIC_REGION=EU /usr/local/bin/newrelic install -y",
-
       # join swarm cluster as managers
       "docker swarm join --token $(cat manager_token) ${digitalocean_droplet.minitwit-swarm-leader.ipv4_address}"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      # install new relic agent
+      "curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.nr_user_key} NEW_RELIC_ACCOUNT_ID=4382689 NEW_RELIC_REGION=EU /usr/local/bin/newrelic install -y",
     ]
   }
 }
@@ -176,11 +185,15 @@ resource "digitalocean_droplet" "minitwit-swarm-worker" {
 
       "ufw allow 22",
 
-      # install new relic agent
-      "curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.nr_user_key} NEW_RELIC_ACCOUNT_ID=4382689 NEW_RELIC_REGION=EU /usr/local/bin/newrelic install -y",
-
       # join swarm cluster as workers
       "docker swarm join --token $(cat worker_token) ${digitalocean_droplet.minitwit-swarm-leader.ipv4_address}"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      # install new relic agent
+      "curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.nr_user_key} NEW_RELIC_ACCOUNT_ID=4382689 NEW_RELIC_REGION=EU /usr/local/bin/newrelic install -y",
     ]
   }
 }

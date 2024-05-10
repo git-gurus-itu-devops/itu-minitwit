@@ -54,7 +54,7 @@ ssh \
 	-o 'StrictHostKeyChecking no' \
 	root@$(terraform output -raw minitwit-swarm-leader-ip-address) \
 	-i ssh_key/terraform \
-	"./deploy.sh ${DATABASE_URL} ${NR_LICENSE_KEY} ${MINITWIT_VERSION}"
+	"chmod +x deploy.sh && ./deploy.sh ${DATABASE_URL} ${NR_LICENSE_KEY} ${MINITWIT_VERSION}"
 
 echo -e "\n--> Done bootstrapping Minitwit"
 echo -e "--> The dbs will need a moment to initialize, this can take up to a couple of minutes..."

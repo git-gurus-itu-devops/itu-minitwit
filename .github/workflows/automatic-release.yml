@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules: 'recursive'
           token: ${{ secrets.CI_TOKEN }}
 
       - name: Create release

@@ -6,7 +6,7 @@ networks:
 services:
   minitwitimage:
     deploy:
-      replicas: 1
+      replicas: 3
       update_config:
         order: start-first
     image: aguldborg/minitwit:${MINITWIT_VERSION}
@@ -51,4 +51,3 @@ services:
       - "5001"
     ports:
       - "5001:5001"
-

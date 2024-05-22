@@ -19,6 +19,10 @@ jobs:
           submodules: 'recursive'
           token: ${{ secrets.CI_TOKEN }}
 
+      - name: Zip report
+        run: |
+          zip -r report.zip report
+        
       - name: Create release
         uses: actions/create-release@v1
         env: 
@@ -26,3 +30,13 @@ jobs:
         with:
           tag_name: v.${{ github.sha }}
           release_name: Release ${{ github.sha }}
+      
+      - name: Upload zip of report
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./report.zip
+          asset_name: report.zip
+          asset_content_type: application/zip

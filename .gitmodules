@@ -1,4 +1,4 @@
 [submodule "report"]
 	path = report
-	url = git@github.com:git-gurus-itu-devops/DevOps24-report.git
+	url = https://github.com/git-gurus-itu-devops/DevOps24-report.git
 	branch = main

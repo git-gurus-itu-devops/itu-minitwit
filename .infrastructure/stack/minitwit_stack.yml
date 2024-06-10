@@ -1,0 +1,63 @@
+version: '3.4'
+
+networks:
+  main:
+
+services:
+  # visualizer:
+  #   image: dockersamples/visualizer:stable
+  #   ports:
+  #     - "8888:8080"
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #   deploy:
+  #     placement:
+  #       constraints: [node.role == manager]
+  interface:
+    deploy:
+      replicas: 1
+      update_config:
+        order: start-first
+    image: aguldborg/minitwit:${MINITWIT_VERSION}
+    command:
+      - /bin/bash
+      - -c
+      - |
+        bundle exec rake db:migrate
+        bundle exec ruby myapp.rb
+    container_name: interface
+    environment:
+      - PORT=5000
+      - DATABASE_URL=${DATABASE_URL} # Gets set by deploy.sh called from continous-deployment
+      - NR_LICENSE_KEY=${NR_LICENSE_KEY}
+      - RUBY_YJIT_ENABLE=1
+    networks:
+      - main
+    ports:
+      - "5000:5000"
+
+  simapi:
+    image: aguldborg/minitwit:${MINITWIT_VERSION}
+    deploy:
+      replicas: 3
+      update_config:
+        order: start-first
+    command:
+      - /bin/bash
+      - -c
+      - |
+        bundle exec rake db:migrate
+        bundle exec ruby simapi/sim_api.rb
+    container_name: simapi
+    environment:
+      - PORT=5001
+      - DATABASE_URL=${DATABASE_URL}
+      - NR_LICENSE_KEY=${NR_LICENSE_KEY}
+      - RUBY_YJIT_ENABLE=1
+    networks:
+      - main
+    expose:
+      - "5001"
+    ports:
+      - "5001:5001"
+

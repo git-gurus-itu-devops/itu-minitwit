@@ -33,6 +33,6 @@ class User < ActiveRecord::Base
     md5 = Digest::MD5.new
     md5 << email.strip.downcase.encode("utf-8")
     md5_hash = md5.hexdigest
-    "http://www.gravatar.com/avatar/#{md5_hash}?d=identicon&s=#{size}"
+    "https://www.gravatar.com/avatar/#{md5_hash}?d=identicon&s=#{size}"
   end
 end
